@@ -1,6 +1,5 @@
 package com.example.proyecto_satapp_Carlos_Rafa.controllers;
 
-import com.example.proyecto_satapp_Carlos_Rafa.models.Usuario;
 import com.example.proyecto_satapp_Carlos_Rafa.services.UsuarioService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

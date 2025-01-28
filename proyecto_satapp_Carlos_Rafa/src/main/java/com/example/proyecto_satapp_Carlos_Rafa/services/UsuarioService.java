@@ -1,6 +1,5 @@
 package com.example.proyecto_satapp_Carlos_Rafa.services;
 
-import com.example.proyecto_satapp_Carlos_Rafa.models.Usuario;
 import com.example.proyecto_satapp_Carlos_Rafa.repositories.UsuarioRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
