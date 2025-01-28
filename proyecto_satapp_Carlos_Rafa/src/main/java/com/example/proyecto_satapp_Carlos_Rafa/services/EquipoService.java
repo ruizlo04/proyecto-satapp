@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -16,9 +17,15 @@ public class EquipoService {
 
     public List <Equipo> findAll(){
         List <Equipo> results = equipoRepository.findAll();
-        if (results.isEmpty()){
+        if (results.isEmpty())
             throw new EntityNotFoundException("No se han encontrado equipos");
-        }
         return results;
+    }
+
+    public Optional <Equipo> findById (Long id){
+        Optional <Equipo> findEquipoOp = equipoRepository.findById(id);
+        if (findEquipoOp.isEmpty())
+            throw new EntityNotFoundException("No se ha encontrado equipo con ese ID");
+        return findEquipoOp;
     }
 }
