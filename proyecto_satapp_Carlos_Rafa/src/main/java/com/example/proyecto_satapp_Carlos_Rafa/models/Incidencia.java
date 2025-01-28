@@ -29,9 +29,7 @@ public class Incidencia {
     private boolean urgencia;
 
     @ManyToOne
-    @JoinColumn(name = "equipo_id",
-            foreignKey = @ForeignKey(name = "fk_incidencia_equipo")
-    )
+    @JoinColumn(foreignKey = @ForeignKey(name = "fk_incidencia_equipo"))
     private Equipo equipo;
 
 

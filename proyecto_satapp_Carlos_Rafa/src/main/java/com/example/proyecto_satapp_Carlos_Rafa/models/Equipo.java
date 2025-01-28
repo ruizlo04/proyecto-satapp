@@ -23,8 +23,4 @@ public class Equipo {
 
     private List<String> caracteristicas;
 
-    @OneToMany(mappedBy = "equipo", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
-    @Builder.Default
-    @ToString.Exclude
-    private List<Incidencia> incidencias = new ArrayList<>();
 }
