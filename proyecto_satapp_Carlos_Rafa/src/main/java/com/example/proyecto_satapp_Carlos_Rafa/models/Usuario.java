@@ -2,6 +2,7 @@ package com.example.proyecto_satapp_Carlos_Rafa.models;
 
 import jakarta.persistence.*;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 import org.hibernate.proxy.HibernateProxy;
 
 import java.util.Objects;
@@ -10,7 +11,7 @@ import java.util.Objects;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
+@SuperBuilder
 @Entity
 @ToString
 @Inheritance(strategy = InheritanceType.JOINED)

@@ -5,6 +5,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.OneToMany;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,31 +16,8 @@ import java.util.List;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
+@SuperBuilder
 public class Alumno extends Usuario {
 
-    @ToString.Exclude
-    @EqualsAndHashCode.Exclude
-    @Builder.Default
-    @OneToMany(
-            mappedBy = "alumno",
-            fetch = FetchType.EAGER,
-            cascade = CascadeType.ALL,
-            orphanRemoval = true
-    )
-    private List<HistoricoCursos> historicoCursosList = new ArrayList<>();
-
-
-    // MÉTODOS HELPER
-
-    public void addHistoricoCursos(HistoricoCursos hc) {
-        hc.setAlumno(this);
-        this.historicoCursosList.add(hc);
-    }
-
-    public void removeHistoricoCursos(HistoricoCursos hc) {
-        this.historicoCursosList.remove(hc);
-
-    }
 
 }
