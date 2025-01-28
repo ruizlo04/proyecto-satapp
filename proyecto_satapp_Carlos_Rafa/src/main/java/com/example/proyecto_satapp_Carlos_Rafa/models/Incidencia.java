@@ -28,9 +28,6 @@ public class Incidencia {
 
     private boolean urgencia;
 
-    @ManyToOne
-    @JoinColumn(name = "equipo_id", foreignKey = @ForeignKey(name = "fk_incidencia_equipo"))
-    private Equipo equipo;
 
     @Override
     public final boolean equals(Object o) {

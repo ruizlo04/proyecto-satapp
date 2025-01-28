@@ -2,9 +2,7 @@ package com.example.proyecto_satapp_Carlos_Rafa.controllers;
 
 import com.example.proyecto_satapp_Carlos_Rafa.models.Incidencia;
 import com.example.proyecto_satapp_Carlos_Rafa.services.IncidenciaService;
-import com.example.proyecto_satapp_Carlos_Rafa.util.EditIncidenciaCmd;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -33,10 +31,5 @@ public class IncidenciaController {
         return ResponseEntity.of(incidenciaService.findById(id));
     }
 
-    @PostMapping("/")
-    public ResponseEntity<Incidencia> create(@RequestBody EditIncidenciaCmd nuevo) {
-        return ResponseEntity.status(HttpStatus.CREATED)
-                .body(incidenciaService.save(nuevo));
-    }
 
 }
