@@ -12,6 +12,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -70,4 +71,35 @@ public class IncidenciaController {
         return ResponseEntity.of(incidenciaService.findById(id));
     }
 
+
+    @Operation(summary = "Crea una nueva incidencia")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201",
+                    description = "Incidencia creada con éxito",
+                    content = { @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = Incidencia.class))}),
+            @ApiResponse(responseCode = "400",
+                    description = "Datos inválidos para crear la incidencia",
+                    content = @Content)
+    })
+    @PostMapping("/")
+    public ResponseEntity<Incidencia> create(@RequestBody EditIncidenciaCmd nuevo) {
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(incidenciaService.save(nuevo));
+    }
+
+    @Operation(summary = "Elimina una incidencia por su ID")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204",
+                    description = "Incidencia eliminada con éxito",
+                    content = @Content),
+            @ApiResponse(responseCode = "404",
+                    description = "No se ha encontrado la incidencia con el ID proporcionado",
+                    content = @Content)
+    })
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> delete(@PathVariable Long id) {
+        incidenciaService.delete(id);
+        return ResponseEntity.noContent().build();
+    }
 }
