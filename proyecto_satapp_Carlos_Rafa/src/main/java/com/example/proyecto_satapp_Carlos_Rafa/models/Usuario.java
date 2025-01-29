@@ -17,6 +17,7 @@ import java.util.Objects;
 @Inheritance(strategy = InheritanceType.JOINED)
 public class Usuario {
     @Id
+
     @GeneratedValue
     private long id;
 

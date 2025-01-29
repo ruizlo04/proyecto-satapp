@@ -34,11 +34,7 @@ public class UsuarioController {
                                     value = """
                                             {
                                                 "id": 1,
-                                                "username": "Rafahm03",
-                                                "password": 101,
-                                                "email": "tudeveloperfav@gmail.com",
-                                                "role": "tecnico",
-                                                "listaIncidencias": []
+                                                "username": "Rafahm03"
                                             }
                                             """
                             )}
