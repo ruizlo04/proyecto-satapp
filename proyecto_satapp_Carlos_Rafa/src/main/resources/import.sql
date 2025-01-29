@@ -1,0 +1,1 @@
+INSERT INTO incidencias (id, titulo, urgencia) VALUES (cnextval('incidencias_seq'), 'incidencia1', true);
