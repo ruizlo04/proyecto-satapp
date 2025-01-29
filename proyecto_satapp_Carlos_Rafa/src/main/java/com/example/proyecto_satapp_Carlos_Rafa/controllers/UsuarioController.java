@@ -56,14 +56,20 @@ public class UsuarioController {
         return ResponseEntity.ok(result);
     }
 
+    @Operation(summary = "Obtiene un usuario por su ID")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",
+                    description = "Se ha encontrado el usuario",
+                    content = { @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = Usuario.class))}),
+            @ApiResponse(responseCode = "404",
+                    description = "No se ha encontrado el usuario con el ID proporcionado",
+                    content = @Content)
+    })
+
     @GetMapping("/{id}")
     public ResponseEntity<Usuario> getById(@PathVariable Long id){
         return ResponseEntity.of(usuarioService.findById(id));
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<?> delete(@PathVariable Long id) {
-        usuarioService.delete(id);
-        return ResponseEntity.noContent().build();
-    }
 }
