@@ -23,7 +23,7 @@ public class IncidenciaService {
     public List<Incidencia> findAll(){
         List <Incidencia> results = incidenciaRepository.findAll();
         if (results.isEmpty()){
-            throw new EntityNotFoundException("No existen incidencias");
+            throw new EntityNotFoundException("No existe ninguna incidencia aún");
         }
         return results;
     }
