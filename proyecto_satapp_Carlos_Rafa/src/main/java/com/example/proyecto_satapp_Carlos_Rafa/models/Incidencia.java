@@ -31,6 +31,10 @@ public class Incidencia {
     @Enumerated(EnumType.STRING)
     private TipoEstado estado;
 
+    @ManyToOne
+    @JoinColumn(name = "ubicacion_id",
+            foreignKey = @ForeignKey(name = "fk_incidencia_ubicacion"))
+    private Ubicacion ubicacion;
 
     @Override
     public final boolean equals(Object o) {

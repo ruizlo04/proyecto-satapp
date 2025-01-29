@@ -9,6 +9,7 @@ public record EditIncidenciaCmd(
         String titulo,
         String descripcion,
         boolean urgencia,
-        TipoEstado estado
+        TipoEstado estado,
+        Long ubicacionId
 ) {
 }
