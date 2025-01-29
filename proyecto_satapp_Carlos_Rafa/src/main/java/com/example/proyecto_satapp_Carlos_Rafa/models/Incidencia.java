@@ -28,6 +28,9 @@ public class Incidencia {
 
     private boolean urgencia;
 
+    @Enumerated(EnumType.STRING)
+    private TipoEstado estado;
+
 
     @Override
     public final boolean equals(Object o) {
