@@ -2,6 +2,7 @@ INSERT INTO usuario  (id, username) VALUES (nextval ('usuario_seq'), 'Rafahm03')
 INSERT INTO usuario (id, username) VALUES (nextval ('usuario_seq'), 'RuizloCar');
 
 INSERT INTO ubicaciones (id, nombre) VALUES (nextval('ubicaciones_seq'), 'Ubicacion1');
+INSERT INTO ubicaciones (id, nombre) VALUES (nextval('ubicaciones_seq'), 'Ubicacion2');
 INSERT INTO equipos (id, nombre, caracteristicas) VALUES (nextval('equipos_seq'), 'Equipo1', '["Característica 1", "Característica 2", "Característica 3"]');
 INSERT INTO equipos (id, nombre, caracteristicas) VALUES (nextval('equipos_seq'), 'Equipo2', '["Característica 1", "Característica 2", "Característica 3"]');
 
