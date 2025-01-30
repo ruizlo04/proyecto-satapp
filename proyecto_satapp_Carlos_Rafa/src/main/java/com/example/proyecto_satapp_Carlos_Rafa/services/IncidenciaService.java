@@ -1,5 +1,6 @@
 package com.example.proyecto_satapp_Carlos_Rafa.services;
 
+import com.example.proyecto_satapp_Carlos_Rafa.models.Equipo;
 import com.example.proyecto_satapp_Carlos_Rafa.models.Incidencia;
 import com.example.proyecto_satapp_Carlos_Rafa.models.Ubicacion;
 import com.example.proyecto_satapp_Carlos_Rafa.repositories.IncidenciaRepository;
@@ -19,6 +20,7 @@ public class IncidenciaService {
 
     private final IncidenciaRepository incidenciaRepository;
     private final UbicacionService ubicacionService;
+    private final EquipoService equipoService;
 
     public List<Incidencia> findAll(){
         List <Incidencia> results = incidenciaRepository.findAll();
@@ -38,6 +40,7 @@ public class IncidenciaService {
 
     public Incidencia save(EditIncidenciaCmd editInc) {
         Optional<Ubicacion> ubicacion = ubicacionService.findById(editInc.ubicacionId());
+        Optional<Equipo> equipo = equipoService.findById(editInc.equipoId());
 
         return incidenciaRepository.save(Incidencia.builder()
                 .fechaIncidencia(editInc.fecha())
@@ -45,6 +48,7 @@ public class IncidenciaService {
                 .descripcion(editInc.descripcion())
                 .urgencia(editInc.urgencia())
                 .ubicacion(ubicacion.get())
+                .equipo(equipo.get())
                 .build());
     }
 
