@@ -13,8 +13,9 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 @AllArgsConstructor
 @SuperBuilder
-public class Personal {
+public class Personal extends Usuario{
 
     @Enumerated(EnumType.STRING)
-    private int tipo;
+    private Tipo tipo;
 }
+
