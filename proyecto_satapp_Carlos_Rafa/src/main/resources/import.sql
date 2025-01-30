@@ -9,8 +9,14 @@ INSERT INTO incidencias (id, fecha_incidencia, titulo, descripcion, urgencia, ub
 VALUES (nextval('incidencias_seq'), '2025-01-29 13:10:00' ,'incidencia1', 'esta incidencia es de prueba',true, 1, 'ABIERTA');
 
 INSERT INTO alumno (id) VALUES (1);
+INSERT INTO alumno (id) VALUES (151);
+
 
 INSERT INTO tecnico (id) VALUES (51);
 
 INSERT INTO personal (id, tipo) VALUES (101, 'PROFESOR');
+
+INSERT INTO historico_cursos (curso_escolar, curso, alumno_id) VALUES ('2024-2025', '2ºDAM', 1);
+INSERT INTO historico_cursos (curso_escolar, curso, alumno_id) VALUES ('2023-2024', '2ºDAM', 151);
+
 
