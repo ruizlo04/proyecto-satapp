@@ -6,6 +6,9 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Getter
 @Setter
 @AllArgsConstructor
@@ -21,5 +24,5 @@ public class Equipo {
 
     private String nombre;
 
-    private String caracteristicas;
+    private List<String> caracteristicas = new ArrayList<>();
 }
