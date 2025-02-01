@@ -27,15 +27,15 @@ public class Alumno extends Usuario {
             cascade = CascadeType.ALL,
             orphanRemoval = true
     )
-    private List<HistoricoCursos> historicoCursosList = new ArrayList<>();
+    private List<HistoricoCursos> historicoCursos= new ArrayList<>();
 
     public void addHistoricoCursos(HistoricoCursos historicoCursos) {
         historicoCursos.setAlumno(this);
-        this.historicoCursosList.add(historicoCursos);
+        this.historicoCursos.add(historicoCursos);
     }
 
     public void removeHistoricoCursos(HistoricoCursos historicoCursos) {
-        this.historicoCursosList.remove(historicoCursos);
+        this.historicoCursos.remove(historicoCursos);
         historicoCursos.setAlumno(null);
     }
 }

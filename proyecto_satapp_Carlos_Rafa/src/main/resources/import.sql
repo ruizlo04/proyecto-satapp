@@ -16,7 +16,8 @@ INSERT INTO tecnico (id) VALUES (51);
 
 INSERT INTO personal (id, tipo) VALUES (101, 'PROFESOR');
 
-INSERT INTO historico_cursos (curso_escolar, curso, alumno_id) VALUES ('2024-2025', '2ºDAM', 1);
-INSERT INTO historico_cursos (curso_escolar, curso, alumno_id) VALUES ('2023-2024', '2ºDAM', 151);
+INSERT INTO historico_cursos (id, curso_escolar, curso, alumno_id) VALUES (nextval ('historico_cursos_seq'), '2024-2025', '2ºDAM', 1);
+INSERT INTO historico_cursos (id, curso_escolar, curso, alumno_id) VALUES (nextval ('historico_cursos_seq'), '2023-2024', '1ºDAM', 1);
+INSERT INTO historico_cursos (id, curso_escolar, curso, alumno_id) VALUES (nextval ('historico_cursos_seq'),'2024-2025', '2ºDAM', 151);
 
 

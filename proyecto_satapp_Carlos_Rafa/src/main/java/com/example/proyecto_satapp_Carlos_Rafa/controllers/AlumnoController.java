@@ -1,8 +1,13 @@
 package com.example.proyecto_satapp_Carlos_Rafa.controllers;
 
 import com.example.proyecto_satapp_Carlos_Rafa.models.Alumno;
+import com.example.proyecto_satapp_Carlos_Rafa.models.HistoricoCursos;
 import com.example.proyecto_satapp_Carlos_Rafa.models.Usuario;
 import com.example.proyecto_satapp_Carlos_Rafa.services.AlumnoService;
+import com.example.proyecto_satapp_Carlos_Rafa.util.EditAlumnoCmd;
+import com.example.proyecto_satapp_Carlos_Rafa.util.EditHistoricoCursoCmd;
+import com.example.proyecto_satapp_Carlos_Rafa.util.GetAlumnoDto;
+import com.example.proyecto_satapp_Carlos_Rafa.util.GetHistoricoCursoDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -13,10 +18,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -71,6 +73,19 @@ public class AlumnoController {
     @GetMapping("/{id}")
     public ResponseEntity<Alumno> getById(@PathVariable Long id){
         return ResponseEntity.of(alumnoService.findById(id));
+    }
+
+    @PostMapping
+    public GetAlumnoDto saveAlumno(@RequestBody EditAlumnoCmd alumnoNuevo) {
+        Alumno alumno = alumnoService.saveAlumno(alumnoNuevo);
+        return GetAlumnoDto.of(alumno);
+    }
+
+    @PostMapping("/{alumnoId}/historico")
+    public GetHistoricoCursoDto saveHistoricoCurso(@PathVariable Long alumnoId, @RequestBody EditHistoricoCursoCmd historicoDto){
+        HistoricoCursos historicoCursos = alumnoService.saveHistoricoCurso(alumnoId, historicoDto);
+
+        return GetHistoricoCursoDto.of(historicoCursos);
     }
 
 }
