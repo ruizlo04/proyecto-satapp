@@ -1,7 +1,9 @@
 package com.example.proyecto_satapp_Carlos_Rafa.services;
 
 import com.example.proyecto_satapp_Carlos_Rafa.models.Equipo;
+import com.example.proyecto_satapp_Carlos_Rafa.models.Ubicacion;
 import com.example.proyecto_satapp_Carlos_Rafa.repositories.EquipoRepository;
+import com.example.proyecto_satapp_Carlos_Rafa.util.EditEquipoCmd;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -13,7 +15,8 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class EquipoService {
 
-    private EquipoRepository equipoRepository;
+    private final EquipoRepository equipoRepository;
+    private final UbicacionService ubicacionService;
 
     public List<Equipo> findAll(){
         List <Equipo> results = equipoRepository.findAll();
@@ -29,5 +32,15 @@ public class EquipoService {
             throw new EntityNotFoundException("No se ha encontrado equipo con ese ID");
         }
         return findIncidenciaOp;
+    }
+
+    public Equipo save(EditEquipoCmd editEquipo){
+        Optional<Ubicacion> ubicacion = ubicacionService.findById(editEquipo.ubicacionId());
+
+        return equipoRepository.save(Equipo.builder()
+                .nombre(editEquipo.nombre())
+                .caracteristicas(editEquipo.caracteristicas())
+                .ubicacion(ubicacion.get())
+                .build());
     }
 }

@@ -21,7 +21,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/incidencia")
 @RequiredArgsConstructor
-@Tag(name = "Bicicleta", description = "El controlador de bicicletas para gestionar todas las operaciones relacionadas con ellas")
+@Tag(name = "Incidencia", description = "El controlador de incidencias para gestionar todas las operaciones relacionadas con ellas")
 public class IncidenciaController {
 
     private final IncidenciaService incidenciaService;
