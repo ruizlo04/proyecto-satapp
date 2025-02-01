@@ -10,6 +10,7 @@ public record EditIncidenciaCmd(
         String descripcion,
         boolean urgencia,
         TipoEstado estado,
-        Long ubicacionId
+        Long ubicacionId,
+        Long equipoId
 ) {
 }

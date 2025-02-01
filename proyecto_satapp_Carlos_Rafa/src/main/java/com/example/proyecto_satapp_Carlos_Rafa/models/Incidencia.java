@@ -36,6 +36,11 @@ public class Incidencia {
             foreignKey = @ForeignKey(name = "fk_incidencia_ubicacion"))
     private Ubicacion ubicacion;
 
+    @ManyToOne
+    @JoinColumn(name = "equipo_id",
+            foreignKey = @ForeignKey(name = "fk_incidencia_equipo"))
+    private Equipo equipo;
+
     @Override
     public final boolean equals(Object o) {
         if (this == o) return true;
