@@ -1,9 +1,6 @@
 package com.example.proyecto_satapp_Carlos_Rafa.models;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.ArrayList;
@@ -25,4 +22,8 @@ public class Equipo {
     private String nombre;
 
     private List<String> caracteristicas = new ArrayList<>();
+
+    @ManyToOne
+    @JoinColumn(name = "ubicacion_id", foreignKey = @ForeignKey(name = "fk_equipo_ubicacion"))
+    private Ubicacion ubicacion;
 }
