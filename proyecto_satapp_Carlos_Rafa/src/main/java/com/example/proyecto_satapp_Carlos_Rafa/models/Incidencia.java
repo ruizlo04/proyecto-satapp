@@ -5,6 +5,8 @@ import lombok.*;
 import org.hibernate.proxy.HibernateProxy;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Getter
@@ -40,6 +42,26 @@ public class Incidencia {
     @JoinColumn(name = "equipo_id",
             foreignKey = @ForeignKey(name = "fk_incidencia_equipo"))
     private Equipo equipo;
+
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    @Builder.Default
+    @OneToMany(
+            mappedBy="incidencia",
+            fetch = FetchType.EAGER,
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    private List<Nota> notas = new ArrayList<>();
+
+    public void addNota(Nota n) {
+        n.setIncidencia(this);
+        this.notas.add(n);
+    }
+
+    public void removeNota(Nota n) {
+        this.notas.remove(n);
+    }
 
     @Override
     public final boolean equals(Object o) {

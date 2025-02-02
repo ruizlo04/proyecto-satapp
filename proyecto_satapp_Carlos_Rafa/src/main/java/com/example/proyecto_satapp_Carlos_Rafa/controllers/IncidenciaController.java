@@ -1,6 +1,7 @@
 package com.example.proyecto_satapp_Carlos_Rafa.controllers;
 
 import com.example.proyecto_satapp_Carlos_Rafa.models.Incidencia;
+import com.example.proyecto_satapp_Carlos_Rafa.models.Nota;
 import com.example.proyecto_satapp_Carlos_Rafa.services.IncidenciaService;
 import com.example.proyecto_satapp_Carlos_Rafa.util.EditIncidenciaCmd;
 import io.swagger.v3.oas.annotations.Operation;
@@ -17,11 +18,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/incidencia")
 @RequiredArgsConstructor
-@Tag(name = "Bicicleta", description = "El controlador de bicicletas para gestionar todas las operaciones relacionadas con ellas")
+@Tag(name = "Incidencia", description = "El controlador de incidencias para gestionar todas las operaciones relacionadas con ellas")
 public class IncidenciaController {
 
     private final IncidenciaService incidenciaService;
@@ -102,4 +104,31 @@ public class IncidenciaController {
         incidenciaService.delete(id);
         return ResponseEntity.noContent().build();
     }
+
+    @Operation(summary = "Añade una nota a una incidencia")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",
+                    description = "Nota añadida a la incidencia con éxito",
+                    content = { @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = Incidencia.class))}),
+            @ApiResponse(responseCode = "404",
+                    description = "No se ha encontrado la incidencia con el ID proporcionado",
+                    content = @Content)
+    })
+    @PostMapping("/{id}/notas")
+    public ResponseEntity<Incidencia> addNotaToIncidencia(@PathVariable Long id, @RequestBody Nota nota) {
+        Optional<Incidencia> incidenciaOptional = incidenciaService.findById(id);
+
+        if (incidenciaOptional.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+        Incidencia incidencia = incidenciaOptional.get();
+        nota.setIncidencia(incidencia);
+
+        Incidencia updatedIncidencia = incidenciaService.addNotaToIncidencia(id, nota);
+
+        return ResponseEntity.ok(updatedIncidencia);
+    }
+
+
 }

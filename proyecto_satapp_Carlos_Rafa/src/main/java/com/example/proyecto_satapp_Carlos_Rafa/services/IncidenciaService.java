@@ -2,6 +2,7 @@ package com.example.proyecto_satapp_Carlos_Rafa.services;
 
 import com.example.proyecto_satapp_Carlos_Rafa.models.Equipo;
 import com.example.proyecto_satapp_Carlos_Rafa.models.Incidencia;
+import com.example.proyecto_satapp_Carlos_Rafa.models.Nota;
 import com.example.proyecto_satapp_Carlos_Rafa.models.Ubicacion;
 import com.example.proyecto_satapp_Carlos_Rafa.repositories.IncidenciaRepository;
 import com.example.proyecto_satapp_Carlos_Rafa.repositories.UbicacionRepository;
@@ -55,4 +56,19 @@ public class IncidenciaService {
     public void delete(Long id){
         incidenciaRepository.deleteById(id);
     }
+
+    public Incidencia addNotaToIncidencia(Long incidenciaId, Nota nota) {
+        Optional<Incidencia> incidenciaOptional = findById(incidenciaId);
+
+        if (incidenciaOptional.isEmpty()) {
+            throw new EntityNotFoundException("No se ha encontrado incidencia con ese id");
+        }
+        Incidencia incidencia = incidenciaOptional.get();
+
+        incidencia.addNota(nota);
+
+        return incidenciaRepository.save(incidencia);
+    }
+
+
 }
