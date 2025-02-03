@@ -4,6 +4,8 @@ import com.example.proyecto_satapp_Carlos_Rafa.models.Incidencia;
 import com.example.proyecto_satapp_Carlos_Rafa.models.Nota;
 import com.example.proyecto_satapp_Carlos_Rafa.services.IncidenciaService;
 import com.example.proyecto_satapp_Carlos_Rafa.util.EditIncidenciaCmd;
+import com.example.proyecto_satapp_Carlos_Rafa.util.EditNotaCmd;
+import com.example.proyecto_satapp_Carlos_Rafa.util.GetIncidenciaDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -32,7 +34,7 @@ public class IncidenciaController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200",
                     description = "Se han encontrado incidencias",
-                    content = { @Content(mediaType = "application/json",
+                    content = {@Content(mediaType = "application/json",
                             array = @ArraySchema(schema = @Schema(implementation = EditIncidenciaCmd.class)),
                             examples = {@ExampleObject(
                                     value = """
@@ -62,7 +64,7 @@ public class IncidenciaController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200",
                     description = "Se ha encontrado la incidencia",
-                    content = { @Content(mediaType = "application/json",
+                    content = {@Content(mediaType = "application/json",
                             schema = @Schema(implementation = Incidencia.class))}),
             @ApiResponse(responseCode = "404",
                     description = "No se ha encontrado la incidencia con el ID proporcionado",
@@ -78,7 +80,7 @@ public class IncidenciaController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201",
                     description = "Incidencia creada con éxito",
-                    content = { @Content(mediaType = "application/json",
+                    content = {@Content(mediaType = "application/json",
                             schema = @Schema(implementation = Incidencia.class))}),
             @ApiResponse(responseCode = "400",
                     description = "Datos inválidos para crear la incidencia",
@@ -109,25 +111,31 @@ public class IncidenciaController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200",
                     description = "Nota añadida a la incidencia con éxito",
-                    content = { @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = Incidencia.class))}),
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema(implementation = GetIncidenciaDto.class))}),
             @ApiResponse(responseCode = "404",
                     description = "No se ha encontrado la incidencia con el ID proporcionado",
                     content = @Content)
     })
     @PostMapping("/{id}/notas")
-    public ResponseEntity<Incidencia> addNotaToIncidencia(@PathVariable Long id, @RequestBody Nota nota) {
-        Optional<Incidencia> incidenciaOptional = incidenciaService.findById(id);
+    public ResponseEntity<GetIncidenciaDto> addNotaToIncidencia(@PathVariable Long id, @RequestBody EditNotaCmd nota) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(GetIncidenciaDto.of(incidenciaService.addNotaToIncidencia(id, nota)));
+    }
 
-        if (incidenciaOptional.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
-        Incidencia incidencia = incidenciaOptional.get();
-        nota.setIncidencia(incidencia);
-
-        Incidencia updatedIncidencia = incidenciaService.addNotaToIncidencia(id, nota);
-
-        return ResponseEntity.ok(updatedIncidencia);
+    @Operation(summary = "Elimina una nota de una incidencia")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",
+                    description = "Nota eliminada de la incidencia con éxito",
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema(implementation = GetIncidenciaDto.class))}),
+            @ApiResponse(responseCode = "404",
+                    description = "No se ha encontrado la incidencia con el ID proporcionado",
+                    content = @Content)
+    })
+    @DeleteMapping("/{id}/notas/{notaId}")
+    public ResponseEntity<?> removeNotaFromIncidencia(@PathVariable Long id, @PathVariable Long notaId) {
+        incidenciaService.removeNotaFromIncidencia(id, notaId);
+        return ResponseEntity.noContent().build();
     }
 
 
