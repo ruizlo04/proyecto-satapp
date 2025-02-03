@@ -27,7 +27,7 @@ public class EquipoService {
     }
 
     public Equipo findById(Long id){
-        Optional <Equipo> findIncidenciaOp = equipoRepository.findById(id);
+        Optional <Equipo> findIncidenciaOp = equipoRepository.getEquipoById(id);
         if (findIncidenciaOp.isEmpty()){
             throw new EntityNotFoundException("No se ha encontrado equipo con ese ID");
         }
