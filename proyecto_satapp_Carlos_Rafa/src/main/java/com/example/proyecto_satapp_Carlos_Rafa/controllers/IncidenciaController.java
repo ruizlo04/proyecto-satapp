@@ -127,21 +127,16 @@ public class IncidenciaController {
             @ApiResponse(responseCode = "200",
                     description = "Nota eliminada de la incidencia con éxito",
                     content = {@Content(mediaType = "application/json",
-                            schema = @Schema(implementation = Incidencia.class))}),
+                            schema = @Schema(implementation = GetIncidenciaDto.class))}),
             @ApiResponse(responseCode = "404",
                     description = "No se ha encontrado la incidencia con el ID proporcionado",
                     content = @Content)
     })
-    @DeleteMapping("/{id}/notas")
-    public ResponseEntity<Incidencia> removeNotaFromIncidencia(@PathVariable Long id, @RequestBody Nota nota) {
-        Optional<Incidencia> incidenciaOptional = incidenciaService.findById(id);
-
-        if (incidenciaOptional.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
-
-        Incidencia updatedIncidencia = incidenciaService.removeNotaFromIncidencia(id, nota);
-        return ResponseEntity.ok(updatedIncidencia);
+    @DeleteMapping("/{id}/notas/{notaId}")
+    public ResponseEntity<?> removeNotaFromIncidencia(@PathVariable Long id, @PathVariable Long notaId) {
+        incidenciaService.removeNotaFromIncidencia(id, notaId);
+        return ResponseEntity.noContent().build();
     }
+
 
 }

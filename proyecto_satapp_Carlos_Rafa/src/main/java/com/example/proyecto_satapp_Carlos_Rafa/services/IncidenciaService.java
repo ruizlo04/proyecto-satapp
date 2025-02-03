@@ -78,17 +78,25 @@ public class IncidenciaService {
         return incidenciaRepository.save(incidencia);
     }
 
-    public Incidencia removeNotaFromIncidencia(Long incidenciaId, Nota nota){
+    public Incidencia removeNotaFromIncidencia(Long incidenciaId, Long notaId) {
         Optional<Incidencia> incidenciaOptional = findById(incidenciaId);
 
         if (incidenciaOptional.isEmpty()) {
-            throw new EntityNotFoundException("No se ha encontrado incidencia con ese id");
+            throw new EntityNotFoundException("No se ha encontrado incidencia con ese ID");
         }
         Incidencia incidencia = incidenciaOptional.get();
 
-        incidencia.removeNota(nota);
+        Optional<Nota> notaOptional = incidenciaRepository.findNotaByIdInIncidencia(incidenciaId, notaId);
+
+        if (notaOptional.isEmpty()) {
+            throw new EntityNotFoundException("No se ha encontrado la nota con ese ID en la incidencia");
+        }
+
+        incidencia.removeNota(notaOptional.get());
 
         return incidenciaRepository.save(incidencia);
     }
+
+
 
 }
