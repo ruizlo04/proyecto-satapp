@@ -19,7 +19,7 @@ public class EquipoService {
     private final UbicacionService ubicacionService;
 
     public List<Equipo> findAll(){
-        List <Equipo> results = equipoRepository.findAll();
+        List <Equipo> results = equipoRepository.getAllEquipos();
         if (results.isEmpty()){
             throw new EntityNotFoundException("No existe ningún equipo aún");
         }
