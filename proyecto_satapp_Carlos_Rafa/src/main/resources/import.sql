@@ -9,10 +9,10 @@ INSERT INTO equipos (id, nombre, caracteristicas, ubicacion_id) VALUES (nextval(
 INSERT INTO equipos (id, nombre, caracteristicas, ubicacion_id) VALUES (nextval('equipos_seq'), 'Equipo2', '["Característica 1", "Característica 2", "Característica 3"]', 1);
 INSERT INTO equipos (id, nombre, caracteristicas, ubicacion_id) VALUES (nextval('equipos_seq'), 'Equipo3', '["Característica 1", "Característica 2", "Característica 3"]', 51);
 
-INSERT INTO incidencias (id, fecha_incidencia, titulo, descripcion, urgencia, ubicacion_id, estado, equipo_id)
-VALUES (nextval('incidencias_seq'), '2025-01-29 13:10:00' ,'incidencia1', 'esta incidencia es de prueba',true, 1, 'ABIERTA', 1);
-INSERT INTO incidencias (id, fecha_incidencia, titulo, descripcion, urgencia, ubicacion_id, estado, equipo_id)
-VALUES (nextval('incidencias_seq'), '2025-01-29 13:10:00' ,'incidencia2', 'esta incidencia es de prueba',true, 1, 'ABIERTA', 51);
+INSERT INTO incidencias (id, fecha_incidencia, titulo, descripcion, urgencia, ubicacion_id, estado, equipo_id, usuario_id)
+VALUES (nextval('incidencias_seq'), '2025-01-29 13:10:00' ,'incidencia1', 'esta incidencia es de prueba',true, 1, 'ABIERTA', 1, 1);
+INSERT INTO incidencias (id, fecha_incidencia, titulo, descripcion, urgencia, ubicacion_id, estado, equipo_id, usuario_id)
+VALUES (nextval('incidencias_seq'), '2025-01-29 13:10:00' ,'incidencia2', 'esta incidencia es de prueba',true, 1, 'ABIERTA', 51, 151);
 
 INSERT INTO alumno (id) VALUES (1);
 INSERT INTO alumno (id) VALUES (151);
