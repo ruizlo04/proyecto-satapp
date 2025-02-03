@@ -35,7 +35,7 @@ public class IncidenciaController {
             @ApiResponse(responseCode = "200",
                     description = "Se han encontrado incidencias",
                     content = {@Content(mediaType = "application/json",
-                            array = @ArraySchema(schema = @Schema(implementation = EditIncidenciaCmd.class)),
+                            array = @ArraySchema(schema = @Schema(implementation = GetIncidenciaDto.class)),
                             examples = {@ExampleObject(
                                     value = """
                                             [
@@ -49,14 +49,8 @@ public class IncidenciaController {
                     content = @Content)
     })
     @GetMapping("/")
-    public ResponseEntity<List<Incidencia>> getAll() {
-        List<Incidencia> result = incidenciaService.findAll();
-
-        if (result.isEmpty())
-            return ResponseEntity.notFound().build();
-
-        return ResponseEntity.ok(result);
-
+    public  List<GetIncidenciaDto> getAll() {
+        return incidenciaService.findAll().stream().map(GetIncidenciaDto::of).toList();
     }
 
 
