@@ -21,12 +21,13 @@ public class UsuarioService {
         return result;
     }
 
-    public Optional<Usuario> findById(Long id) {
+    public Usuario findById(Long id) {
         Optional<Usuario> result = usuarioRepository.findById(id);
         if(result.isEmpty())
             throw new EntityNotFoundException("No se encontraron usuarios con ese id");
-        return result;
-
+        else {
+            return result.get();
+        }
     }
 
     public void delete(Long id) {

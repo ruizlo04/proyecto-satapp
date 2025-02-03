@@ -1,5 +1,6 @@
 package com.example.proyecto_satapp_Carlos_Rafa.services;
 
+import com.example.proyecto_satapp_Carlos_Rafa.models.Alumno;
 import com.example.proyecto_satapp_Carlos_Rafa.models.Personal;
 import com.example.proyecto_satapp_Carlos_Rafa.models.Tecnico;
 import com.example.proyecto_satapp_Carlos_Rafa.repositories.PersonalRepository;
@@ -22,11 +23,13 @@ public class PersonalService {
         return result;
     }
 
-    public Optional<Personal> findById(Long id) {
-        Optional<Personal> personalOp = personalRepository.findById(id);
-        if(personalOp.isEmpty())
-            throw new EntityNotFoundException("No se encontraron personal con ese ID");
-        return personalOp;
+    public Personal findById(Long id) {
+        Optional<Personal> result = personalRepository.findById(id);
+        if(result.isEmpty())
+            throw new EntityNotFoundException("No se encontró personal con ese id");
+        else {
+            return result.get();
+        }
     }
 
     public void delete(Long id) {

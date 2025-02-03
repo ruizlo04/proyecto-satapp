@@ -2,6 +2,7 @@ package com.example.proyecto_satapp_Carlos_Rafa.services;
 
 import com.example.proyecto_satapp_Carlos_Rafa.models.Alumno;
 import com.example.proyecto_satapp_Carlos_Rafa.models.HistoricoCursos;
+import com.example.proyecto_satapp_Carlos_Rafa.models.Usuario;
 import com.example.proyecto_satapp_Carlos_Rafa.repositories.AlumnoRepository;
 import com.example.proyecto_satapp_Carlos_Rafa.util.EditAlumnoCmd;
 import com.example.proyecto_satapp_Carlos_Rafa.util.EditHistoricoCursoCmd;
@@ -24,11 +25,13 @@ public class AlumnoService {
         return result;
     }
 
-    public Optional<Alumno> findById(Long id) {
-        Optional<Alumno> alumnoOp = alumnoRepository.findById(id);
-        if(alumnoOp.isEmpty())
-            throw new EntityNotFoundException("No se encontraron alumnos con ese ID");
-        return alumnoOp;
+    public Alumno findById(Long id) {
+        Optional<Alumno> result = alumnoRepository.findById(id);
+        if(result.isEmpty())
+            throw new EntityNotFoundException("No se encontró alumno con ese id");
+        else {
+            return result.get();
+        }
     }
 
     public Alumno saveAlumno(EditAlumnoCmd editAlumnoDto) {
