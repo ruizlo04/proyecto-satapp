@@ -26,12 +26,12 @@ public class EquipoService {
         return results;
     }
 
-    public Optional<Equipo> findById(Long id){
+    public Equipo findById(Long id){
         Optional <Equipo> findIncidenciaOp = equipoRepository.findById(id);
         if (findIncidenciaOp.isEmpty()){
             throw new EntityNotFoundException("No se ha encontrado equipo con ese ID");
         }
-        return findIncidenciaOp;
+        return findIncidenciaOp.get();
     }
 
     public Equipo save(EditEquipoCmd editEquipo){

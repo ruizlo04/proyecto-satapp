@@ -43,7 +43,7 @@ public class IncidenciaService {
 
     public Incidencia save(EditIncidenciaCmd editInc) {
         Optional<Ubicacion> ubicacion = ubicacionService.findById(editInc.ubicacionId());
-        Optional<Equipo> equipo = equipoService.findById(editInc.equipoId());
+        Equipo equipo = equipoService.findById(editInc.equipoId());
 
         return incidenciaRepository.save(Incidencia.builder()
                 .fechaIncidencia(editInc.fecha())
@@ -51,7 +51,7 @@ public class IncidenciaService {
                 .descripcion(editInc.descripcion())
                 .urgencia(editInc.urgencia())
                 .ubicacion(ubicacion.get())
-                .equipo(equipo.get())
+                .equipo(equipo)
                 .build());
     }
 
