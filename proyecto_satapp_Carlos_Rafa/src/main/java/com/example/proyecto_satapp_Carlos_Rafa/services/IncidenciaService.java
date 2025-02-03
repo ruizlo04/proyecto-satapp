@@ -8,6 +8,7 @@ import com.example.proyecto_satapp_Carlos_Rafa.repositories.IncidenciaRepository
 import com.example.proyecto_satapp_Carlos_Rafa.repositories.UbicacionRepository;
 import com.example.proyecto_satapp_Carlos_Rafa.util.EditIncidenciaCmd;
 import com.example.proyecto_satapp_Carlos_Rafa.util.EditNotaCmd;
+import com.example.proyecto_satapp_Carlos_Rafa.util.GetIncidenciaDto;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -32,12 +33,12 @@ public class IncidenciaService {
         return results;
     }
 
-    public Optional<Incidencia> findById(Long id){
+    public Incidencia findById(Long id){
         Optional <Incidencia> findIncidenciaOp = incidenciaRepository.findById(id);
         if (findIncidenciaOp.isEmpty()){
             throw new EntityNotFoundException("No se ha encontrado incidencia con ese ID");
         }
-        return findIncidenciaOp;
+        return findIncidenciaOp.get();
     }
 
     public Incidencia save(EditIncidenciaCmd editInc) {
@@ -59,11 +60,12 @@ public class IncidenciaService {
     }
 
     public Incidencia addNotaToIncidencia(Long incidenciaId, EditNotaCmd nuevo) {
-        Optional<Incidencia> incidenciaOptional = findById(incidenciaId);
+        Optional<Incidencia> incidenciaOptional = incidenciaRepository.findById(incidenciaId);
 
         if (incidenciaOptional.isEmpty()) {
             throw new EntityNotFoundException("No se ha encontrado incidencia con ese id");
         }
+
         Incidencia incidencia = incidenciaOptional.get();
 
         Nota nota = Nota.builder()
@@ -79,11 +81,12 @@ public class IncidenciaService {
     }
 
     public Incidencia removeNotaFromIncidencia(Long incidenciaId, Long notaId) {
-        Optional<Incidencia> incidenciaOptional = findById(incidenciaId);
+        Optional<Incidencia> incidenciaOptional = incidenciaRepository.findById(incidenciaId);
 
         if (incidenciaOptional.isEmpty()) {
-            throw new EntityNotFoundException("No se ha encontrado incidencia con ese ID");
+            throw new EntityNotFoundException("No se ha encontrado incidencia con ese id");
         }
+
         Incidencia incidencia = incidenciaOptional.get();
 
         Optional<Nota> notaOptional = incidenciaRepository.findNotaByIdInIncidencia(incidenciaId, notaId);
