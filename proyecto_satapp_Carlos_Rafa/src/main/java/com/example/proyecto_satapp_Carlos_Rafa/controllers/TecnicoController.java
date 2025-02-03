@@ -3,6 +3,8 @@ package com.example.proyecto_satapp_Carlos_Rafa.controllers;
 import com.example.proyecto_satapp_Carlos_Rafa.models.Alumno;
 import com.example.proyecto_satapp_Carlos_Rafa.models.Tecnico;
 import com.example.proyecto_satapp_Carlos_Rafa.services.TecnicoService;
+import com.example.proyecto_satapp_Carlos_Rafa.util.GetTecnicoDto;
+import com.example.proyecto_satapp_Carlos_Rafa.util.GetUsuarioDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -32,7 +34,7 @@ public class TecnicoController {
             @ApiResponse(responseCode = "200",
                     description = "Se han encontrado las tecnicos",
                     content = { @Content(mediaType = "application/json",
-                            array = @ArraySchema(schema = @Schema(implementation = Tecnico.class)),
+                            array = @ArraySchema(schema = @Schema(implementation = GetTecnicoDto.class)),
                             examples = {@ExampleObject(
                                     value = """
                                             {
@@ -48,12 +50,10 @@ public class TecnicoController {
             )
     })
 
-    @GetMapping
-    public ResponseEntity<List<Tecnico>> getAll(){
-        List<Tecnico> result = tecnicoService.findAll();
-        if(result.isEmpty())
-            return ResponseEntity.notFound().build();
-        return ResponseEntity.ok(result);
+    @GetMapping("/")
+    public List<GetTecnicoDto> getAll(){
+        return tecnicoService.findAll().stream().map(GetTecnicoDto::of).toList();
+
     }
 
     @Operation(summary = "Obtiene un tecnico por su ID")
@@ -61,7 +61,7 @@ public class TecnicoController {
             @ApiResponse(responseCode = "200",
                     description = "Se ha encontrado el tecnico",
                     content = { @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = Tecnico.class))}),
+                            schema = @Schema(implementation = GetTecnicoDto.class))}),
             @ApiResponse(responseCode = "404",
                     description = "No se ha encontrado el tecnico con el ID proporcionado",
                     content = @Content)

@@ -2,6 +2,7 @@ package com.example.proyecto_satapp_Carlos_Rafa.controllers;
 
 import com.example.proyecto_satapp_Carlos_Rafa.models.Usuario;
 import com.example.proyecto_satapp_Carlos_Rafa.services.UsuarioService;
+import com.example.proyecto_satapp_Carlos_Rafa.util.GetUsuarioDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -29,7 +30,7 @@ public class UsuarioController {
             @ApiResponse(responseCode = "200",
                     description = "Se han encontrado las usuarios",
                     content = { @Content(mediaType = "application/json",
-                            array = @ArraySchema(schema = @Schema(implementation = Usuario.class)),
+                            array = @ArraySchema(schema = @Schema(implementation = GetUsuarioDto.class)),
                             examples = {@ExampleObject(
                                     value = """
                                             {
@@ -44,20 +45,19 @@ public class UsuarioController {
             )
     })
 
-    @GetMapping
-    public ResponseEntity<List<Usuario>> getAll(){
-        List<Usuario> result = usuarioService.findAll();
-        if(result.isEmpty())
-            return ResponseEntity.notFound().build();
-        return ResponseEntity.ok(result);
+    @GetMapping("/")
+    public List<GetUsuarioDto> getAll(){
+        return usuarioService.findAll().stream().map(GetUsuarioDto::of).toList();
+
     }
+
 
     @Operation(summary = "Obtiene un usuario por su ID")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200",
                     description = "Se ha encontrado el usuario",
                     content = { @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = Usuario.class))}),
+                            schema = @Schema(implementation = GetUsuarioDto.class))}),
             @ApiResponse(responseCode = "404",
                     description = "No se ha encontrado el usuario con el ID proporcionado",
                     content = @Content)

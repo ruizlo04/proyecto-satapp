@@ -4,10 +4,7 @@ import com.example.proyecto_satapp_Carlos_Rafa.models.Alumno;
 import com.example.proyecto_satapp_Carlos_Rafa.models.HistoricoCursos;
 import com.example.proyecto_satapp_Carlos_Rafa.models.Usuario;
 import com.example.proyecto_satapp_Carlos_Rafa.services.AlumnoService;
-import com.example.proyecto_satapp_Carlos_Rafa.util.EditAlumnoCmd;
-import com.example.proyecto_satapp_Carlos_Rafa.util.EditHistoricoCursoCmd;
-import com.example.proyecto_satapp_Carlos_Rafa.util.GetAlumnoDto;
-import com.example.proyecto_satapp_Carlos_Rafa.util.GetHistoricoCursoDto;
+import com.example.proyecto_satapp_Carlos_Rafa.util.*;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -35,7 +32,7 @@ public class AlumnoController {
             @ApiResponse(responseCode = "200",
                     description = "Se han encontrado las alumnos",
                     content = { @Content(mediaType = "application/json",
-                            array = @ArraySchema(schema = @Schema(implementation = Alumno.class)),
+                            array = @ArraySchema(schema = @Schema(implementation = GetAlumnoDto.class)),
                             examples = {@ExampleObject(
                                     value = """
                                             {
@@ -51,20 +48,19 @@ public class AlumnoController {
             )
     })
 
-    @GetMapping
-    public ResponseEntity<List<Alumno>> getAll(){
-        List<Alumno> result = alumnoService.findAll();
-        if(result.isEmpty())
-            return ResponseEntity.notFound().build();
-        return ResponseEntity.ok(result);
+    @GetMapping("/")
+    public List<GetAlumnoDto> getAll(){
+        return alumnoService.findAll().stream().map(GetAlumnoDto::of).toList();
+
     }
+
 
     @Operation(summary = "Obtiene un alumno por su ID")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200",
                     description = "Se ha encontrado el alumno",
                     content = { @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = Alumno.class))}),
+                            schema = @Schema(implementation = GetAlumnoDto.class))}),
             @ApiResponse(responseCode = "404",
                     description = "No se ha encontrado el alumno con el ID proporcionado",
                     content = @Content)

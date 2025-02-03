@@ -3,6 +3,8 @@ package com.example.proyecto_satapp_Carlos_Rafa.controllers;
 import com.example.proyecto_satapp_Carlos_Rafa.models.Alumno;
 import com.example.proyecto_satapp_Carlos_Rafa.models.Personal;
 import com.example.proyecto_satapp_Carlos_Rafa.services.PersonalService;
+import com.example.proyecto_satapp_Carlos_Rafa.util.GetPersonalDto;
+import com.example.proyecto_satapp_Carlos_Rafa.util.GetUsuarioDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -33,7 +35,7 @@ public class PersonalController {
             @ApiResponse(responseCode = "200",
                     description = "Se han encontrado los personal",
                     content = { @Content(mediaType = "application/json",
-                            array = @ArraySchema(schema = @Schema(implementation = Personal.class)),
+                            array = @ArraySchema(schema = @Schema(implementation = GetPersonalDto.class)),
                             examples = {@ExampleObject(
                                     value = """
                                             {
@@ -48,12 +50,10 @@ public class PersonalController {
             )
     })
 
-    @GetMapping
-    public ResponseEntity<List<Personal>> getAll(){
-        List<Personal> result = personalService.findAll();
-        if(result.isEmpty())
-            return ResponseEntity.notFound().build();
-        return ResponseEntity.ok(result);
+    @GetMapping("/")
+    public List<GetPersonalDto> getAll(){
+        return personalService.findAll().stream().map(GetPersonalDto::of).toList();
+
     }
 
     @Operation(summary = "Obtiene un personal por su ID")
@@ -61,7 +61,7 @@ public class PersonalController {
             @ApiResponse(responseCode = "200",
                     description = "Se ha encontrado el personal",
                     content = { @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = Personal.class))}),
+                            schema = @Schema(implementation = GetPersonalDto.class))}),
             @ApiResponse(responseCode = "404",
                     description = "No se ha encontrado el personal con el ID proporcionado",
                     content = @Content)
