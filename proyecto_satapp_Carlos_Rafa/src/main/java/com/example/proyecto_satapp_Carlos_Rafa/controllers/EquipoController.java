@@ -56,14 +56,14 @@ public class EquipoController {
             @ApiResponse(responseCode = "200",
                     description = "Se ha encontrado el equipo",
                     content = { @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = Equipo.class))}),
+                            schema = @Schema(implementation = GetEquipoDto.class))}),
             @ApiResponse(responseCode = "404",
                     description = "No se ha encontrado el equipo con el ID proporcionado",
                     content = @Content)
     })
     @GetMapping("/{id}")
-    public ResponseEntity<Equipo> getById(@PathVariable Long id) {
-        return ResponseEntity.of(equipoService.findById(id));
+    public GetEquipoDto getById(@PathVariable Long id) {
+        return GetEquipoDto.of(equipoService.findById(id));
     }
 
     @Operation(summary = "Crea un nuevo equipo")
