@@ -3,6 +3,7 @@ package com.example.proyecto_satapp_Carlos_Rafa.controllers;
 import com.example.proyecto_satapp_Carlos_Rafa.models.Ubicacion;
 import com.example.proyecto_satapp_Carlos_Rafa.services.UbicacionService;
 import com.example.proyecto_satapp_Carlos_Rafa.util.EditUbicacionCmd;
+import com.example.proyecto_satapp_Carlos_Rafa.util.GetUbicacionDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -33,7 +34,7 @@ public class UbicacionController {
             @ApiResponse(responseCode = "200",
                     description = "Se han encontrado ubicaciones",
                     content = { @Content(mediaType = "application/json",
-                            array = @ArraySchema(schema = @Schema(implementation = EditUbicacionCmd.class)),
+                            array = @ArraySchema(schema = @Schema(implementation = GetUbicacionDto.class)),
                             examples = {@ExampleObject(
                                     value = """
                                             [
@@ -47,14 +48,8 @@ public class UbicacionController {
                     content = @Content)
     })
     @GetMapping("/")
-    public ResponseEntity<List<Ubicacion>> getAll() {
-        List<Ubicacion> result = ubicacionService.findAll();
-
-        if (result.isEmpty())
-
-            return ResponseEntity.notFound().build();
-
-        return ResponseEntity.ok(result);
+    public List<GetUbicacionDto> getAll() {
+        return ubicacionService.findAll().stream().map(GetUbicacionDto::of).toList();
     }
 
     @Operation(summary = "Obtiene una ubicacion por su ID")
