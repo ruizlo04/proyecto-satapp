@@ -3,6 +3,7 @@ package com.example.proyecto_satapp_Carlos_Rafa.controllers;
 import com.example.proyecto_satapp_Carlos_Rafa.models.Equipo;
 import com.example.proyecto_satapp_Carlos_Rafa.services.EquipoService;
 import com.example.proyecto_satapp_Carlos_Rafa.util.EditEquipoCmd;
+import com.example.proyecto_satapp_Carlos_Rafa.util.GetEquipoDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -31,7 +32,7 @@ public class EquipoController {
             @ApiResponse(responseCode = "200",
                     description = "Se han encontrado equipos",
                     content = { @Content(mediaType = "application/json",
-                            array = @ArraySchema(schema = @Schema(implementation = EditEquipoCmd.class)),
+                            array = @ArraySchema(schema = @Schema(implementation = GetEquipoDto.class)),
                             examples = {@ExampleObject(
                                     value = """
                                            [
@@ -45,13 +46,8 @@ public class EquipoController {
                     content = @Content)
     })
     @GetMapping("/")
-    public ResponseEntity<List<Equipo>> getAll() {
-        List<Equipo> result = equipoService.findAll();
-
-        if (result.isEmpty())
-            return ResponseEntity.notFound().build();
-
-        return ResponseEntity.ok(result);
+    public List <GetEquipoDto> getAll() {
+        return equipoService.findAll().stream().map(GetEquipoDto::of).toList();
 
     }
 
