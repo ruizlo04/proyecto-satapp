@@ -59,14 +59,14 @@ public class IncidenciaController {
             @ApiResponse(responseCode = "200",
                     description = "Se ha encontrado la incidencia",
                     content = {@Content(mediaType = "application/json",
-                            schema = @Schema(implementation = Incidencia.class))}),
+                            schema = @Schema(implementation = GetIncidenciaDto.class))}),
             @ApiResponse(responseCode = "404",
                     description = "No se ha encontrado la incidencia con el ID proporcionado",
                     content = @Content)
     })
     @GetMapping("/{id}")
-    public ResponseEntity<Incidencia> getById(@PathVariable Long id) {
-        return ResponseEntity.of(incidenciaService.findById(id));
+    public GetIncidenciaDto getById(@PathVariable Long id) {
+        return GetIncidenciaDto.of(incidenciaService.findById(id));
     }
 
 
