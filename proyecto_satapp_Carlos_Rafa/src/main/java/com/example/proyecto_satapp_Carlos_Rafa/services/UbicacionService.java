@@ -16,7 +16,7 @@ public class UbicacionService {
     private final UbicacionRepository ubicacionRepository;
 
     public List <Ubicacion> findAll(){
-        List <Ubicacion> results = ubicacionRepository.findAll();
+        List <Ubicacion> results = ubicacionRepository.getAllUbicaciones();
         if (results.isEmpty())
             throw new EntityNotFoundException("No se ha encontrado ninguna ubicación");
         return results;
