@@ -68,7 +68,7 @@ public class PersonalController {
     })
 
     @GetMapping("/{id}")
-    public ResponseEntity<Personal> getById(@PathVariable Long id){
-        return ResponseEntity.of(personalService.findById(id));
+    public GetPersonalDto getById(@PathVariable Long id){
+        return GetPersonalDto.of(personalService.findById(id));
     }
 }

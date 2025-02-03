@@ -2,6 +2,7 @@ package com.example.proyecto_satapp_Carlos_Rafa.controllers;
 
 import com.example.proyecto_satapp_Carlos_Rafa.models.Usuario;
 import com.example.proyecto_satapp_Carlos_Rafa.services.UsuarioService;
+import com.example.proyecto_satapp_Carlos_Rafa.util.GetUsuarioDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -48,17 +49,15 @@ public class UsuarioController {
             )
     })
 
-    @GetMapping
-    public ResponseEntity<List<Usuario>> getAll(){
-        List<Usuario> result = usuarioService.findAll();
-        if(result.isEmpty())
-            return ResponseEntity.notFound().build();
-        return ResponseEntity.ok(result);
+    @GetMapping("/")
+    public List<GetUsuarioDto> getAll(){
+        return usuarioService.findAll().stream().map(GetUsuarioDto::of).toList();
+
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Usuario> getById(@PathVariable Long id){
-        return ResponseEntity.of(usuarioService.findById(id));
+    public GetUsuarioDto getById(@PathVariable Long id){
+        return GetUsuarioDto.of(usuarioService.findById(id));
     }
 
     @DeleteMapping("/{id}")

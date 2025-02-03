@@ -67,8 +67,8 @@ public class AlumnoController {
     })
 
     @GetMapping("/{id}")
-    public ResponseEntity<Alumno> getById(@PathVariable Long id){
-        return ResponseEntity.of(alumnoService.findById(id));
+    public GetAlumnoDto getById(@PathVariable Long id){
+        return GetAlumnoDto.of(alumnoService.findById(id));
     }
 
     @PostMapping

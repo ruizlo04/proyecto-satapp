@@ -3,6 +3,7 @@ package com.example.proyecto_satapp_Carlos_Rafa.controllers;
 import com.example.proyecto_satapp_Carlos_Rafa.models.Alumno;
 import com.example.proyecto_satapp_Carlos_Rafa.models.Tecnico;
 import com.example.proyecto_satapp_Carlos_Rafa.services.TecnicoService;
+import com.example.proyecto_satapp_Carlos_Rafa.util.GetPersonalDto;
 import com.example.proyecto_satapp_Carlos_Rafa.util.GetTecnicoDto;
 import com.example.proyecto_satapp_Carlos_Rafa.util.GetUsuarioDto;
 import io.swagger.v3.oas.annotations.Operation;
@@ -68,8 +69,8 @@ public class TecnicoController {
     })
 
     @GetMapping("/{id}")
-    public ResponseEntity<Tecnico> getById(@PathVariable Long id){
-        return ResponseEntity.of(tecnicoService.findById(id));
+    public GetTecnicoDto getById(@PathVariable Long id){
+        return GetTecnicoDto.of(tecnicoService.findById(id));
     }
 
 }

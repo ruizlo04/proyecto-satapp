@@ -1,5 +1,6 @@
 package com.example.proyecto_satapp_Carlos_Rafa.services;
 
+import com.example.proyecto_satapp_Carlos_Rafa.models.Alumno;
 import com.example.proyecto_satapp_Carlos_Rafa.models.Tecnico;
 import com.example.proyecto_satapp_Carlos_Rafa.repositories.TecnicoRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -21,11 +22,13 @@ public class TecnicoService {
         return result;
     }
 
-    public Optional<Tecnico> findById(Long id) {
-        Optional<Tecnico> tecnicoOp = tecnicoRepository.findById(id);
-        if(tecnicoOp.isEmpty())
-            throw new EntityNotFoundException("No se encontraron tecnicos con ese ID");
-        return tecnicoOp;
+    public Tecnico findById(Long id) {
+        Optional<Tecnico> result = tecnicoRepository.findById(id);
+        if(result.isEmpty())
+            throw new EntityNotFoundException("No se encontró técnico con ese id");
+        else {
+            return result.get();
+        }
     }
 
     public void delete(Long id) {

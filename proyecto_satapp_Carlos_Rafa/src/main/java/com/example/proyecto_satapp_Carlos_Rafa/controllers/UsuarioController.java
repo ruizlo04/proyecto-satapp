@@ -64,8 +64,9 @@ public class UsuarioController {
     })
 
     @GetMapping("/{id}")
-    public ResponseEntity<Usuario> getById(@PathVariable Long id){
-        return ResponseEntity.of(usuarioService.findById(id));
+    public GetUsuarioDto getById(@PathVariable Long id){
+        return GetUsuarioDto.of(usuarioService.findById(id));
     }
+
 
 }
