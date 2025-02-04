@@ -6,9 +6,9 @@ public class AlumnoNotFoundException extends RuntimeException {
     }
 
   public AlumnoNotFoundException(Long id) {
-    super("No hay usuarios con ese ID: " + id);
+    super("No hay alumnos con ese ID: " + id);
   }
   public AlumnoNotFoundException() {
-    super("No hay usuarios con esos requisitos de búsqueda");
+    super("No hay alumnos con esos requisitos de búsqueda");
   }
 }
