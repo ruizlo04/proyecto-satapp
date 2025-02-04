@@ -16,7 +16,7 @@ public class UbicacionService {
     private final UbicacionRepository ubicacionRepository;
 
     public List <Ubicacion> findAll(){
-        List <Ubicacion> results = ubicacionRepository.getAllUbicaciones();
+        List <Ubicacion> results = ubicacionRepository.findAll();
         if (results.isEmpty())
             throw new EntityNotFoundException("No se ha encontrado ninguna ubicación");
         return results;
@@ -26,6 +26,13 @@ public class UbicacionService {
         Optional <Ubicacion> resultsOp = ubicacionRepository.findById(id);
         if (resultsOp.isEmpty())
             throw new EntityNotFoundException("No se han encontrado ubicaciones con es id");
+        return resultsOp;
+    }
+
+    public Optional <Ubicacion> findByNombre(String nombre){
+        Optional <Ubicacion> resultsOp = ubicacionRepository.getUbicacionByNombre(nombre);
+        if (resultsOp.isEmpty())
+            throw new EntityNotFoundException("No se han encontrado ubicaciones con ese nombre");
         return resultsOp;
     }
 }

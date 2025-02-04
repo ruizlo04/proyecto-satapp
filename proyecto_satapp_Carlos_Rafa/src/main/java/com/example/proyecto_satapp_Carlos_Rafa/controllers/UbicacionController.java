@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/ubicacion")
@@ -65,5 +66,21 @@ public class UbicacionController {
     @GetMapping("/{id}")
     public ResponseEntity<Ubicacion> getById(@PathVariable Long id) {
         return ResponseEntity.of(ubicacionService.findById(id));
+    }
+
+    @Operation(summary = "Obtiene una ubicacion por su nombre")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",
+                    description = "Se ha encontrado la ubicacion",
+                    content = { @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = GetUbicacionDto.class))}),
+            @ApiResponse(responseCode = "404",
+                    description = "No se ha encontrado la ubicacion con el nombre proporcionado",
+                    content = @Content)
+    })
+    @GetMapping("/nombre/{nombre}")
+    public ResponseEntity<Optional<Ubicacion>> getByNombre(@PathVariable String nombre) {
+        Optional<Ubicacion> ubicacion = ubicacionService.findByNombre(nombre);
+        return ResponseEntity.ok(ubicacion);
     }
 }
