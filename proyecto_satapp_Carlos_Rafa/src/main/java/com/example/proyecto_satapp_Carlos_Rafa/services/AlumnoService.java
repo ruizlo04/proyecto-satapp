@@ -72,8 +72,13 @@ public class AlumnoService {
     }
 
 
-    public void delete(Long id) {
+    public void deleteById(Long id) {
+        Optional<Alumno> alumnoOp = alumnoRepository.findById(id);
+
+        if (alumnoOp.isEmpty()) {
+            throw new EntityNotFoundException("Alumno no encontrado");
+        }
+
         alumnoRepository.deleteById(id);
     }
-
 }

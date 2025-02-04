@@ -89,8 +89,13 @@ public class TecnicoService {
     }
 
 
-    public void delete(Long id) {
+    public void deleteById(Long id) {
+        Optional<Tecnico> tecnicoOp = tecnicoRepository.findById(id);
+
+        if (tecnicoOp.isEmpty()) {
+            throw new EntityNotFoundException("Tecnico no encontrado");
+        }
+
         tecnicoRepository.deleteById(id);
     }
-
 }

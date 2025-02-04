@@ -74,6 +74,20 @@ public class TecnicoController {
         return GetTecnicoDto.of(tecnicoService.findById(id));
     }
 
+
+    @Operation(summary = "Gestiona una incidencia por su ID")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",
+                    description = "Incidencia gestionada exitosamente",
+                    content = { @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = GetIncidenciaDto.class))}),
+            @ApiResponse(responseCode = "404",
+                    description = "No se encontró la incidencia con el ID proporcionado",
+                    content = @Content),
+            @ApiResponse(responseCode = "400",
+                    description = "Error en los datos proporcionados",
+                    content = @Content)
+    })
     @PutMapping("/incidencias/{incidenciaId}")
     public ResponseEntity<Incidencia> gestionarIncidencia(
             @PathVariable Long incidenciaId,
@@ -84,16 +98,51 @@ public class TecnicoController {
         return ResponseEntity.ok(incidencia);
     }
 
+    @Operation(summary = "Crea un nuevo tecnico")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201",
+                    description = "Tecnico creado exitosamente",
+                    content = { @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = GetTecnicoDto.class))}),
+            @ApiResponse(responseCode = "400",
+                    description = "Error en los datos proporcionados",
+                    content = @Content)
+    })
     @PostMapping("/nuevo")
     public GetTecnicoDto saveTecnico(@RequestBody EditTecnicoCmd tecnicoNuevo) {
         Tecnico tecnico =  tecnicoService.saveTecnico(tecnicoNuevo);
         return GetTecnicoDto.of(tecnico);
     }
 
+    @Operation(summary = "Edita un tecnico por su ID")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",
+                    description = "Tecnico editado exitosamente",
+                    content = { @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = Tecnico.class))}),
+            @ApiResponse(responseCode = "404",
+                    description = "No se encontró el tecnico con el ID proporcionado",
+                    content = @Content)
+    })
     @PutMapping("/{id}")
     public Tecnico edit(@RequestBody EditTecnicoCmd aEditar,
                          @PathVariable Long id) {
         return tecnicoService.edit(aEditar, id);
+    }
+
+    @Operation(summary = "Elimina un tecnico por su ID")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204",
+                    description = "Tecnico eliminado exitosamente",
+                    content = @Content),
+            @ApiResponse(responseCode = "404",
+                    description = "No se encontró el tecnico con el ID proporcionado",
+                    content = @Content)
+    })
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> delete(@PathVariable Long id) {
+        tecnicoService.deleteById(id);
+        return ResponseEntity.noContent().build();
     }
 
 }
