@@ -1,5 +1,6 @@
 package com.example.proyecto_satapp_Carlos_Rafa.services;
 
+import com.example.proyecto_satapp_Carlos_Rafa.error.IncidenciaNotFoundExcepcion;
 import com.example.proyecto_satapp_Carlos_Rafa.models.*;
 import com.example.proyecto_satapp_Carlos_Rafa.repositories.IncidenciaRepository;
 import com.example.proyecto_satapp_Carlos_Rafa.repositories.UbicacionRepository;
@@ -26,7 +27,7 @@ public class IncidenciaService {
     public List<Incidencia> findAll(){
         List <Incidencia> results = incidenciaRepository.findAll();
         if (results.isEmpty()){
-            throw new EntityNotFoundException("No existe ninguna incidencia aún");
+            throw new IncidenciaNotFoundExcepcion("No existe ninguna incidencia aún");
         }
         return results;
     }
@@ -34,7 +35,7 @@ public class IncidenciaService {
     public Incidencia findById(Long id){
         Optional <Incidencia> findIncidenciaOp = incidenciaRepository.findById(id);
         if (findIncidenciaOp.isEmpty()){
-            throw new EntityNotFoundException("No se ha encontrado incidencia con ese ID");
+            throw new IncidenciaNotFoundExcepcion("No se ha encontrado incidencia con ese ID");
         }
         return findIncidenciaOp.get();
     }
@@ -64,7 +65,7 @@ public class IncidenciaService {
         Optional<Incidencia> incidenciaOptional = incidenciaRepository.findById(incidenciaId);
 
         if (incidenciaOptional.isEmpty()) {
-            throw new EntityNotFoundException("No se ha encontrado incidencia con ese id");
+            throw new IncidenciaNotFoundExcepcion("No se ha encontrado incidencia con ese id");
         }
 
         Incidencia incidencia = incidenciaOptional.get();
@@ -85,7 +86,7 @@ public class IncidenciaService {
         Optional<Incidencia> incidenciaOptional = incidenciaRepository.findById(incidenciaId);
 
         if (incidenciaOptional.isEmpty()) {
-            throw new EntityNotFoundException("No se ha encontrado incidencia con ese id");
+            throw new IncidenciaNotFoundExcepcion("No se ha encontrado incidencia con ese id");
         }
 
         Incidencia incidencia = incidenciaOptional.get();
