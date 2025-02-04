@@ -83,6 +83,7 @@ public class AlumnoController {
         return GetHistoricoCursoDto.of(historicoCursos);
     }
 
+
     @PutMapping("/{id}")
     public Alumno edit(@RequestBody EditAlumnoCmd aEditar,
                          @PathVariable Long id) {
