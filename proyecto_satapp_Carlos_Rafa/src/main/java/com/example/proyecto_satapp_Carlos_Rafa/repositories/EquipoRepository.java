@@ -24,4 +24,11 @@ public interface EquipoRepository extends JpaRepository<Equipo, Long> {
             WHERE e.id = :id"""
     )
     public Optional<Equipo> getEquipoById(@Param("id")Long equipoId);
+
+    @Query("""
+            SELECT e 
+            FROM Equipo e 
+            WHERE e.ubicacion.id = :ubicacionId""")
+    List<Equipo> findByUbicacionId(@Param("ubicacionId") Long ubicacionId);
+
 }
