@@ -75,6 +75,19 @@ public class TecnicoService {
     }
 
 
+    public Tecnico edit(EditTecnicoCmd editTecnicoCmd, Long id) {
+        return tecnicoRepository.findById(id)
+                .map(old -> {
+                    old.setUsername(editTecnicoCmd.username());
+                    old.setPassword(editTecnicoCmd.password());
+                    old.setEmail(editTecnicoCmd.email());
+                    old.setRole(editTecnicoCmd.role());
+                    return tecnicoRepository.save(old);
+                })
+                .orElseThrow(() -> new EntityNotFoundException("No hay tecnico con ID: "+ id));
+
+    }
+
 
     public void delete(Long id) {
         tecnicoRepository.deleteById(id);

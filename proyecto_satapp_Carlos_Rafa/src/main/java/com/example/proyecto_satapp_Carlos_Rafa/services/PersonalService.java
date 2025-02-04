@@ -44,6 +44,20 @@ public class PersonalService {
                 .build());
     }
 
+    public Personal edit(EditPersonalCmd editPersonalCmd, Long id) {
+        return personalRepository.findById(id)
+                .map(old -> {
+                    old.setUsername(editPersonalCmd.username());
+                    old.setPassword(editPersonalCmd.password());
+                    old.setEmail(editPersonalCmd.email());
+                    old.setRole(editPersonalCmd.role());
+                    old.setTipo(editPersonalCmd.tipo());
+                    return personalRepository.save(old);
+                })
+                .orElseThrow(() -> new EntityNotFoundException("No hay personal con ID: "+ id));
+
+    }
+
     public void delete(Long id) {
         personalRepository.deleteById(id);
     }

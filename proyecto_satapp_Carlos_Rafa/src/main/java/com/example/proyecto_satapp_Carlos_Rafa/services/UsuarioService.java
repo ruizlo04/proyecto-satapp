@@ -71,6 +71,20 @@ public class UsuarioService {
                 .build());
     }
 
+    public Usuario edit(EditUsuarioCmd editUsuarioCmd, Long id) {
+        return usuarioRepository.findById(id)
+                .map(old -> {
+                    old.setUsername(editUsuarioCmd.username());
+                    old.setPassword(editUsuarioCmd.password());
+                    old.setEmail(editUsuarioCmd.email());
+                    old.setRole(editUsuarioCmd.role());
+                    return usuarioRepository.save(old);
+                })
+                .orElseThrow(() -> new EntityNotFoundException("No hay usuario con ID: "+ id));
+
+    }
+
+
 
     public void delete(Long id) {
         usuarioRepository.deleteById(id);

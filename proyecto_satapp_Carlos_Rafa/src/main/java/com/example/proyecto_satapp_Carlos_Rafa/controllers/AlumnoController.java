@@ -54,7 +54,6 @@ public class AlumnoController {
 
     }
 
-
     @Operation(summary = "Obtiene un alumno por su ID")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200",
@@ -82,6 +81,13 @@ public class AlumnoController {
         HistoricoCursos historicoCursos = alumnoService.saveHistoricoCurso(alumnoId, historicoDto);
 
         return GetHistoricoCursoDto.of(historicoCursos);
+    }
+
+
+    @PutMapping("/{id}")
+    public Alumno edit(@RequestBody EditAlumnoCmd aEditar,
+                         @PathVariable Long id) {
+        return alumnoService.edit(aEditar, id);
     }
 
 }
