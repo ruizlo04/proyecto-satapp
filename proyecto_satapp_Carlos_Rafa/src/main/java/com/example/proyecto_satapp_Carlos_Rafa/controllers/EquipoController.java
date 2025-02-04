@@ -80,4 +80,10 @@ public class EquipoController {
     public ResponseEntity<GetEquipoDto> create(@RequestBody EditEquipoCmd nuevo) {
         return ResponseEntity.status(HttpStatus.CREATED).body(GetEquipoDto.of(equipoService.save(nuevo)));
     }
+
+    @PutMapping("/{id}")
+    public Equipo edit(@RequestBody EditEquipoCmd aEditar,
+                         @PathVariable Long id) {
+        return equipoService.editEquipo(id, aEditar);
+    }
 }

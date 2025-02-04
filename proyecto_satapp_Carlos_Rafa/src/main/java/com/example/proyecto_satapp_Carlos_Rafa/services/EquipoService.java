@@ -4,6 +4,7 @@ import com.example.proyecto_satapp_Carlos_Rafa.error.EquipoNotFoundExcepcion;
 import com.example.proyecto_satapp_Carlos_Rafa.models.Equipo;
 import com.example.proyecto_satapp_Carlos_Rafa.models.Ubicacion;
 import com.example.proyecto_satapp_Carlos_Rafa.repositories.EquipoRepository;
+import com.example.proyecto_satapp_Carlos_Rafa.repositories.UbicacionRepository;
 import com.example.proyecto_satapp_Carlos_Rafa.util.EditEquipoCmd;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +19,7 @@ public class EquipoService {
 
     private final EquipoRepository equipoRepository;
     private final UbicacionService ubicacionService;
+    private final UbicacionRepository ubicacionRepository;
 
     public List<Equipo> findAll(){
         List <Equipo> results = equipoRepository.getAllEquipos();
@@ -44,4 +46,22 @@ public class EquipoService {
                 .ubicacion(ubicacion.get())
                 .build());
     }
+
+    public Equipo editEquipo(Long id, EditEquipoCmd editEquipo) {
+
+        Optional<Equipo> equipoOptional = equipoRepository.findById(id);
+        Optional<Ubicacion> ubicacionOptional = ubicacionService.findById(editEquipo.ubicacionId());
+
+        if (equipoOptional.isEmpty()) {
+            throw new EquipoNotFoundExcepcion("No existe el equipo con ese id");
+        }
+
+        Equipo equipo = equipoOptional.get();
+        equipo.setNombre(editEquipo.nombre());
+        equipo.setCaracteristicas(editEquipo.caracteristicas());
+        equipo.setUbicacion(ubicacionOptional.get());
+
+        return equipoRepository.save(equipo);
+    }
+
 }
