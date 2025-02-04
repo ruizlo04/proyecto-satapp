@@ -81,9 +81,38 @@ public class EquipoController {
         return ResponseEntity.status(HttpStatus.CREATED).body(GetEquipoDto.of(equipoService.save(nuevo)));
     }
 
+    @Operation(summary = "Edita un equipo existente")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",
+                    description = "Equipo editado con éxito",
+                    content = { @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = EditEquipoCmd.class))}),
+            @ApiResponse(responseCode = "404",
+                    description = "No se ha encontrado el equipo con el ID proporcionado",
+                    content = @Content),
+            @ApiResponse(responseCode = "400",
+                    description = "Datos inválidos para editar el equipo",
+                    content = @Content)
+    })
     @PutMapping("/{id}")
     public Equipo edit(@RequestBody EditEquipoCmd aEditar,
-                         @PathVariable Long id) {
+                       @PathVariable Long id) {
         return equipoService.editEquipo(id, aEditar);
     }
+
+    @Operation(summary = "Elimina un equipo por su ID")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204",
+                    description = "Equipo eliminado con éxito",
+                    content = @Content),
+            @ApiResponse(responseCode = "404",
+                    description = "No se ha encontrado el equipo con el ID proporcionado",
+                    content = @Content)
+    })
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> delete(@PathVariable Long id) {
+        equipoService.deleteById(id);
+        return ResponseEntity.noContent().build();
+    }
+
 }
