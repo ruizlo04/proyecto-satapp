@@ -6,6 +6,7 @@ import com.example.proyecto_satapp_Carlos_Rafa.models.Usuario;
 import com.example.proyecto_satapp_Carlos_Rafa.repositories.AlumnoRepository;
 import com.example.proyecto_satapp_Carlos_Rafa.util.EditAlumnoCmd;
 import com.example.proyecto_satapp_Carlos_Rafa.util.EditHistoricoCursoCmd;
+import com.example.proyecto_satapp_Carlos_Rafa.util.EditUsuarioCmd;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -56,6 +57,20 @@ public class AlumnoService {
         alumnoRepository.save(alumno);
         return historicoCursos;
     }
+
+    public Alumno edit(EditAlumnoCmd editAlumnoCmd, Long id) {
+        return alumnoRepository.findById(id)
+                .map(old -> {
+                    old.setUsername(editAlumnoCmd.username());
+                    old.setPassword(editAlumnoCmd.password());
+                    old.setEmail(editAlumnoCmd.email());
+                    old.setRole(editAlumnoCmd.role());
+                    return alumnoRepository.save(old);
+                })
+                .orElseThrow(() -> new EntityNotFoundException("No hay alumno con ID: "+ id));
+
+    }
+
 
     public void delete(Long id) {
         alumnoRepository.deleteById(id);

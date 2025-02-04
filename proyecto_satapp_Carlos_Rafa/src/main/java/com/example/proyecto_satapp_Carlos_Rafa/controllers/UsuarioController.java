@@ -78,6 +78,12 @@ public class UsuarioController {
         return ResponseEntity.status(HttpStatus.CREATED).body(GetIncidenciaDto.of(usuarioService.abrirIncidencia(usuarioId, incidenciaCmd)));
     }
 
+    @PutMapping("/{id}")
+    public Usuario edit(@RequestBody EditUsuarioCmd aEditar,
+                         @PathVariable Long id) {
+        return usuarioService.edit(aEditar, id);
+    }
+
     @PostMapping("/nuevo")
     public ResponseEntity<Usuario> create(@RequestBody EditUsuarioCmd nuevo) {
         return ResponseEntity.status(HttpStatus.CREATED)

@@ -74,4 +74,10 @@ public class PersonalController {
         Personal personal =  personalService.savePersonal(personalNuevo);
         return GetPersonalDto.of(personal);
     }
+
+    @PutMapping("/{id}")
+    public Personal edit(@RequestBody EditPersonalCmd aEditar,
+                       @PathVariable Long id) {
+        return personalService.edit(aEditar, id);
+    }
 }

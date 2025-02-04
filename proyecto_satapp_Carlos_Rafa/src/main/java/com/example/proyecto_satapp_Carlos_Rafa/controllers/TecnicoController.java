@@ -2,6 +2,7 @@ package com.example.proyecto_satapp_Carlos_Rafa.controllers;
 
 import com.example.proyecto_satapp_Carlos_Rafa.models.Alumno;
 import com.example.proyecto_satapp_Carlos_Rafa.models.Incidencia;
+import com.example.proyecto_satapp_Carlos_Rafa.models.Personal;
 import com.example.proyecto_satapp_Carlos_Rafa.models.Tecnico;
 import com.example.proyecto_satapp_Carlos_Rafa.services.IncidenciaService;
 import com.example.proyecto_satapp_Carlos_Rafa.services.TecnicoService;
@@ -87,6 +88,12 @@ public class TecnicoController {
     public GetTecnicoDto saveTecnico(@RequestBody EditTecnicoCmd tecnicoNuevo) {
         Tecnico tecnico =  tecnicoService.saveTecnico(tecnicoNuevo);
         return GetTecnicoDto.of(tecnico);
+    }
+
+    @PutMapping("/{id}")
+    public Tecnico edit(@RequestBody EditTecnicoCmd aEditar,
+                         @PathVariable Long id) {
+        return tecnicoService.edit(aEditar, id);
     }
 
 }
