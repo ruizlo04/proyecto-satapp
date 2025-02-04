@@ -53,7 +53,7 @@ public class EquipoService {
         Optional<Ubicacion> ubicacionOptional = ubicacionService.findById(editEquipo.ubicacionId());
 
         if (equipoOptional.isEmpty()) {
-            throw new EquipoNotFoundExcepcion("No existe el equipo con el ID especificado");
+            throw new EquipoNotFoundExcepcion("No existe el equipo con ese id");
         }
 
         Equipo equipo = equipoOptional.get();
