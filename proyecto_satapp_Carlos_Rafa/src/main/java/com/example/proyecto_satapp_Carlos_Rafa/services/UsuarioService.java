@@ -1,6 +1,7 @@
 package com.example.proyecto_satapp_Carlos_Rafa.services;
 
 import com.example.proyecto_satapp_Carlos_Rafa.error.UbicacionNotFoundExcepcion;
+import com.example.proyecto_satapp_Carlos_Rafa.error.UsuarioNotFoundException;
 import com.example.proyecto_satapp_Carlos_Rafa.models.Equipo;
 import com.example.proyecto_satapp_Carlos_Rafa.models.Incidencia;
 import com.example.proyecto_satapp_Carlos_Rafa.models.Ubicacion;
@@ -26,14 +27,14 @@ public class UsuarioService {
     public List<Usuario> findAll(){
         List<Usuario> result = usuarioRepository.findAll();
         if(result.isEmpty())
-            throw new EntityNotFoundException("No hay usuarios con esos criterios de busqueda");
+            throw new UsuarioNotFoundException("No hay usuarios con esos criterios de busqueda");
         return result;
     }
 
     public Usuario findById(Long id) {
         Optional<Usuario> result = usuarioRepository.findById(id);
         if(result.isEmpty())
-            throw new EntityNotFoundException("No se encontraron usuarios con ese id");
+            throw new UsuarioNotFoundException("No se encontraron usuarios con ese id");
         else {
             return result.get();
         }
@@ -44,7 +45,7 @@ public class UsuarioService {
         Optional<Usuario> optionalUsuario = usuarioRepository.findById(usuarioId);
 
         if (optionalUsuario.isEmpty()) {
-            throw new EntityNotFoundException("Usuario no encontrado");
+            throw new UsuarioNotFoundException("Usuario no encontrado");
         }
 
         Incidencia incidencia =  Incidencia.builder()
@@ -83,7 +84,7 @@ public class UsuarioService {
                     old.setRole(editUsuarioCmd.role());
                     return usuarioRepository.save(old);
                 })
-                .orElseThrow(() -> new EntityNotFoundException("No hay usuario con ID: "+ id));
+                .orElseThrow(() -> new UsuarioNotFoundException("No hay usuario con ID: "+ id));
 
     }
 
