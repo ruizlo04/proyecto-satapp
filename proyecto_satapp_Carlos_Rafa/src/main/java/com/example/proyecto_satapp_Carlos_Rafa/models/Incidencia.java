@@ -34,6 +34,11 @@ public class Incidencia {
     private TipoEstado estado;
 
     @ManyToOne
+    @JoinColumn(name = "usuario_id",
+                foreignKey = @ForeignKey(name = "fk_incidencia_usuario"))
+    private Usuario usuario;
+
+    @ManyToOne
     @JoinColumn(name = "ubicacion_id",
             foreignKey = @ForeignKey(name = "fk_incidencia_ubicacion"))
     private Ubicacion ubicacion;

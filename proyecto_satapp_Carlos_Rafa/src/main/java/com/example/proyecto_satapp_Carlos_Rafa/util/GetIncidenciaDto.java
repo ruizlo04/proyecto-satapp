@@ -12,7 +12,8 @@ public record GetIncidenciaDto(
         String descripcion,
         boolean urgencia,
         TipoEstado estado,
-        List <GetNotaDto> notas
+        List <GetNotaDto> notas,
+        GetUsuarioDto usuario
 ) {
 
     public static GetIncidenciaDto of (Incidencia i){
@@ -22,7 +23,8 @@ public record GetIncidenciaDto(
                 i.getDescripcion(),
                 i.isUrgencia(),
                 i.getEstado(),
-                i.getNotas().stream().map(GetNotaDto::of).toList()
+                i.getNotas().stream().map(GetNotaDto::of).toList(),
+                GetUsuarioDto.of(i.getUsuario())
         );
     }
 }

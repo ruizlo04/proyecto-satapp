@@ -2,6 +2,9 @@ package com.example.proyecto_satapp_Carlos_Rafa.util;
 
 import com.example.proyecto_satapp_Carlos_Rafa.models.Usuario;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public record GetUsuarioDto(
         Long id,
         String username,

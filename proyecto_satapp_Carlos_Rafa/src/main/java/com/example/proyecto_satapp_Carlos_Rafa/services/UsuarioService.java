@@ -1,7 +1,11 @@
 package com.example.proyecto_satapp_Carlos_Rafa.services;
 
+import com.example.proyecto_satapp_Carlos_Rafa.models.Incidencia;
 import com.example.proyecto_satapp_Carlos_Rafa.models.Usuario;
+import com.example.proyecto_satapp_Carlos_Rafa.repositories.IncidenciaRepository;
 import com.example.proyecto_satapp_Carlos_Rafa.repositories.UsuarioRepository;
+import com.example.proyecto_satapp_Carlos_Rafa.util.EditIncidenciaCmd;
+import com.example.proyecto_satapp_Carlos_Rafa.util.GetIncidenciaDto;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -13,6 +17,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class UsuarioService {
     private final UsuarioRepository usuarioRepository;
+    private final IncidenciaRepository incidenciaRepository;
 
     public List<Usuario> findAll(){
         List<Usuario> result = usuarioRepository.findAll();
@@ -29,6 +34,34 @@ public class UsuarioService {
             return result.get();
         }
     }
+
+    public Incidencia abrirIncidencia(Long usuarioId, EditIncidenciaCmd incidenciaCmd) {
+
+        Optional<Usuario> optionalUsuario = usuarioRepository.findById(usuarioId);
+
+        if (optionalUsuario.isEmpty()) {
+            throw new EntityNotFoundException("Usuario no encontrado");
+        }
+
+        Incidencia incidencia =  Incidencia.builder()
+                .fechaIncidencia(incidenciaCmd.fecha())
+                .titulo(incidenciaCmd.titulo())
+                .descripcion(incidenciaCmd.descripcion())
+                .urgencia(incidenciaCmd.urgencia())
+                .estado(incidenciaCmd.estado())
+                .usuario(optionalUsuario.get())
+                .build();
+
+        incidenciaRepository.save(incidencia);
+
+        optionalUsuario.get().addIncidencia(incidencia);
+
+        usuarioRepository.save(optionalUsuario.get());
+
+        return incidencia;
+    }
+
+
 
     public void delete(Long id) {
         usuarioRepository.deleteById(id);
