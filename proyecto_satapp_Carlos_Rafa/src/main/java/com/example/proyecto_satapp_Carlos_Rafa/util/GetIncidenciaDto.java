@@ -1,10 +1,13 @@
 package com.example.proyecto_satapp_Carlos_Rafa.util;
 
 import com.example.proyecto_satapp_Carlos_Rafa.models.Incidencia;
+import com.example.proyecto_satapp_Carlos_Rafa.models.Tecnico;
 import com.example.proyecto_satapp_Carlos_Rafa.models.TipoEstado;
+import org.hibernate.mapping.Set;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public record GetIncidenciaDto(
         LocalDateTime fechaIncidencia,
@@ -13,7 +16,8 @@ public record GetIncidenciaDto(
         boolean urgencia,
         TipoEstado estado,
         List <GetNotaDto> notas,
-        GetUsuarioDto usuario
+        GetUsuarioDto usuario,
+        List<GetTecnicoDto> tecnicos
 ) {
 
     public static GetIncidenciaDto of (Incidencia i){
@@ -24,7 +28,8 @@ public record GetIncidenciaDto(
                 i.isUrgencia(),
                 i.getEstado(),
                 i.getNotas().stream().map(GetNotaDto::of).toList(),
-                GetUsuarioDto.of(i.getUsuario())
+                GetUsuarioDto.of(i.getUsuario()),
+                i.getTecnicos().stream().map(GetTecnicoDto::of).toList()
         );
     }
 }
