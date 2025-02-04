@@ -1,8 +1,11 @@
 package com.example.proyecto_satapp_Carlos_Rafa.controllers;
 
 import com.example.proyecto_satapp_Carlos_Rafa.models.Alumno;
+import com.example.proyecto_satapp_Carlos_Rafa.models.Incidencia;
 import com.example.proyecto_satapp_Carlos_Rafa.models.Tecnico;
+import com.example.proyecto_satapp_Carlos_Rafa.services.IncidenciaService;
 import com.example.proyecto_satapp_Carlos_Rafa.services.TecnicoService;
+import com.example.proyecto_satapp_Carlos_Rafa.util.EditIncidenciaCmd;
 import com.example.proyecto_satapp_Carlos_Rafa.util.GetPersonalDto;
 import com.example.proyecto_satapp_Carlos_Rafa.util.GetTecnicoDto;
 import com.example.proyecto_satapp_Carlos_Rafa.util.GetUsuarioDto;
@@ -14,12 +17,11 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -29,6 +31,7 @@ import java.util.List;
 @Tag(name = "Tecnico", description = "El controlador de tecnico para gestionar todas las operaciones relacionadas con esta entidad")
 public class TecnicoController {
     private final TecnicoService tecnicoService;
+    private final IncidenciaService incidenciaService;
 
     @Operation(summary = "Obtiene todas los tecnicos")
     @ApiResponses(value = {
@@ -71,6 +74,16 @@ public class TecnicoController {
     @GetMapping("/{id}")
     public GetTecnicoDto getById(@PathVariable Long id){
         return GetTecnicoDto.of(tecnicoService.findById(id));
+    }
+
+    @PutMapping("/incidencias/{incidenciaId}")
+    public ResponseEntity<Incidencia> gestionarIncidencia(
+            @PathVariable Long incidenciaId,
+            @RequestBody EditIncidenciaCmd incidenciaCmd) {
+
+        Incidencia incidencia = tecnicoService.gestionarIncidencia(incidenciaId, incidenciaCmd);
+
+        return ResponseEntity.ok(incidencia);
     }
 
 }
