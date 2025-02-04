@@ -56,10 +56,6 @@ public class EquipoService {
             throw new EquipoNotFoundExcepcion("No existe el equipo con el ID especificado");
         }
 
-        if (ubicacionOptional.isEmpty()) {
-            throw new EquipoNotFoundExcepcion("No existe la ubicación con el ID especificado");
-        }
-
         Equipo equipo = equipoOptional.get();
         equipo.setNombre(editEquipo.nombre());
         equipo.setCaracteristicas(editEquipo.caracteristicas());
