@@ -69,15 +69,52 @@ public class PersonalController {
         return GetPersonalDto.of(personalService.findById(id));
     }
 
+    @Operation(summary = "Crea un nuevo personal")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201",
+                    description = "Personal creado exitosamente",
+                    content = { @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = GetPersonalDto.class))}),
+            @ApiResponse(responseCode = "400",
+                    description = "Error en los datos proporcionados",
+                    content = @Content)
+    })
     @PostMapping("/nuevo")
     public GetPersonalDto savePersonal(@RequestBody EditPersonalCmd personalNuevo) {
         Personal personal =  personalService.savePersonal(personalNuevo);
         return GetPersonalDto.of(personal);
     }
 
+
+    @Operation(summary = "Edita un personal por su ID")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",
+                    description = "Personal editado exitosamente",
+                    content = { @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = Personal.class))}),
+            @ApiResponse(responseCode = "404",
+                    description = "No se encontró el personal con el ID proporcionado",
+                    content = @Content)
+    })
     @PutMapping("/{id}")
     public Personal edit(@RequestBody EditPersonalCmd aEditar,
                        @PathVariable Long id) {
         return personalService.edit(aEditar, id);
+    }
+
+
+    @Operation(summary = "Elimina un personal por su ID")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204",
+                    description = "Personal eliminado exitosamente",
+                    content = @Content),
+            @ApiResponse(responseCode = "404",
+                    description = "No se encontró el personal con el ID proporcionado",
+                    content = @Content)
+    })
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> delete(@PathVariable Long id) {
+        personalService.deleteById(id);
+        return ResponseEntity.noContent().build();
     }
 }

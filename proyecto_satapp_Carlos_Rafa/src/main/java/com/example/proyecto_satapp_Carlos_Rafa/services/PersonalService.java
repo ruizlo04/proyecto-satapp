@@ -58,7 +58,12 @@ public class PersonalService {
 
     }
 
-    public void delete(Long id) {
+    public void deleteById(Long id) {
+        Optional<Personal> personalOp = personalRepository.findById(id);
+
+        if (personalOp.isEmpty()) {
+            throw new EntityNotFoundException("Personal no encontrado");
+        }
+
         personalRepository.deleteById(id);
-    }
-}
+    }}

@@ -1,6 +1,9 @@
 package com.example.proyecto_satapp_Carlos_Rafa.services;
 
+import com.example.proyecto_satapp_Carlos_Rafa.error.UbicacionNotFoundExcepcion;
+import com.example.proyecto_satapp_Carlos_Rafa.models.Equipo;
 import com.example.proyecto_satapp_Carlos_Rafa.models.Incidencia;
+import com.example.proyecto_satapp_Carlos_Rafa.models.Ubicacion;
 import com.example.proyecto_satapp_Carlos_Rafa.models.Usuario;
 import com.example.proyecto_satapp_Carlos_Rafa.repositories.IncidenciaRepository;
 import com.example.proyecto_satapp_Carlos_Rafa.repositories.UsuarioRepository;
@@ -85,9 +88,15 @@ public class UsuarioService {
     }
 
 
+    public void deleteById(Long id) {
+        Optional<Usuario> usuarioOp = usuarioRepository.findById(id);
 
-    public void delete(Long id) {
+        if (usuarioOp.isEmpty()) {
+            throw new EntityNotFoundException("Usuario no encontrado");
+        }
+
         usuarioRepository.deleteById(id);
     }
+
 
 }
