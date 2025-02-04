@@ -1,5 +1,7 @@
 package com.example.proyecto_satapp_Carlos_Rafa.services;
 
+import com.example.proyecto_satapp_Carlos_Rafa.error.IncidenciaNotFoundExcepcion;
+import com.example.proyecto_satapp_Carlos_Rafa.error.TecnicoNotFoundException;
 import com.example.proyecto_satapp_Carlos_Rafa.models.Alumno;
 import com.example.proyecto_satapp_Carlos_Rafa.models.Incidencia;
 import com.example.proyecto_satapp_Carlos_Rafa.models.Tecnico;
@@ -25,36 +27,45 @@ public class TecnicoService {
     public List<Tecnico> findAll(){
         List<Tecnico> result = tecnicoRepository.findAll();
         if(result.isEmpty())
-            throw new EntityNotFoundException("No hay tecnicos con esos criterios de busqueda");
+            throw new TecnicoNotFoundException("No hay tecnicos con esos criterios de busqueda");
         return result;
     }
 
     public Tecnico findById(Long id) {
         Optional<Tecnico> result = tecnicoRepository.findById(id);
         if(result.isEmpty())
-            throw new EntityNotFoundException("No se encontró técnico con ese id");
+            throw new TecnicoNotFoundException("No se encontró técnico con ese id");
         else {
             return result.get();
         }
     }
 
     public Incidencia gestionarIncidencia(Long incidenciaId, EditIncidenciaCmd incidenciaCmd) {
-        return incidenciaRepository.findById(incidenciaId)
-                .map(old -> {
-                    old.setEstado(incidenciaCmd.estado());
-                    return incidenciaRepository.save(old);
-                })
-                .orElseThrow(() -> new EntityNotFoundException("No hay producto con ID: "+ incidenciaId));
+        Optional<Incidencia> optionalIncidencia = incidenciaRepository.findById(incidenciaId);
 
+        if (optionalIncidencia.isEmpty()) {
+            throw new IncidenciaNotFoundExcepcion("No hay incidencia con ID: " + incidenciaId);
+        }
 
+        Incidencia incidencia = optionalIncidencia.get();
+        incidencia.setEstado(incidenciaCmd.estado());
+
+        return incidenciaRepository.save(incidencia);
     }
 
     public Incidencia gestionarIncidencia(Long incidenciaId, Long tecnicoId, EditIncidenciaCmd incidenciaCmd) {
-        Incidencia incidencia = incidenciaRepository.findById(incidenciaId)
-                .orElseThrow(() -> new EntityNotFoundException("No hay incidencia con ID: " + incidenciaId));
+        Optional<Incidencia> optionalIncidencia = incidenciaRepository.findById(incidenciaId);
+        Optional<Tecnico> optionalTecnico = tecnicoRepository.findById(tecnicoId);
 
-        Tecnico tecnico = tecnicoRepository.findById(tecnicoId)
-                .orElseThrow(() -> new EntityNotFoundException("No hay técnico con ID: " + tecnicoId));
+        if (optionalIncidencia.isEmpty()) {
+            throw new IncidenciaNotFoundExcepcion("No hay incidencia con ID: " + incidenciaId);
+        }
+        if (optionalTecnico.isEmpty()) {
+            throw new TecnicoNotFoundException(tecnicoId);
+        }
+
+        Incidencia incidencia = optionalIncidencia.get();
+        Tecnico tecnico = optionalTecnico.get();
 
         incidencia.setEstado(incidenciaCmd.estado());
         tecnico.addIncidencia(incidencia);
@@ -64,6 +75,7 @@ public class TecnicoService {
 
         return incidencia;
     }
+
 
     public Tecnico saveTecnico(EditTecnicoCmd editTecnicoCmd) {
         return tecnicoRepository.save(Tecnico.builder()
@@ -76,16 +88,19 @@ public class TecnicoService {
 
 
     public Tecnico edit(EditTecnicoCmd editTecnicoCmd, Long id) {
-        return tecnicoRepository.findById(id)
-                .map(old -> {
-                    old.setUsername(editTecnicoCmd.username());
-                    old.setPassword(editTecnicoCmd.password());
-                    old.setEmail(editTecnicoCmd.email());
-                    old.setRole(editTecnicoCmd.role());
-                    return tecnicoRepository.save(old);
-                })
-                .orElseThrow(() -> new EntityNotFoundException("No hay tecnico con ID: "+ id));
+        Optional<Tecnico> optionalTecnico = tecnicoRepository.findById(id);
 
+        if (optionalTecnico.isEmpty()) {
+            throw new TecnicoNotFoundException(id);
+        }
+
+        Tecnico tecnico = optionalTecnico.get();
+        tecnico.setUsername(editTecnicoCmd.username());
+        tecnico.setPassword(editTecnicoCmd.password());
+        tecnico.setEmail(editTecnicoCmd.email());
+        tecnico.setRole(editTecnicoCmd.role());
+
+        return tecnicoRepository.save(tecnico);
     }
 
 
@@ -93,7 +108,7 @@ public class TecnicoService {
         Optional<Tecnico> tecnicoOp = tecnicoRepository.findById(id);
 
         if (tecnicoOp.isEmpty()) {
-            throw new EntityNotFoundException("Tecnico no encontrado");
+            throw new TecnicoNotFoundException("Tecnico no encontrado");
         }
 
         tecnicoRepository.deleteById(id);
