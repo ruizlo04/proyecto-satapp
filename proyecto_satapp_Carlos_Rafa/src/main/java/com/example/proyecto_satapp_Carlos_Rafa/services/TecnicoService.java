@@ -6,7 +6,9 @@ import com.example.proyecto_satapp_Carlos_Rafa.models.Tecnico;
 import com.example.proyecto_satapp_Carlos_Rafa.models.Usuario;
 import com.example.proyecto_satapp_Carlos_Rafa.repositories.IncidenciaRepository;
 import com.example.proyecto_satapp_Carlos_Rafa.repositories.TecnicoRepository;
+import com.example.proyecto_satapp_Carlos_Rafa.util.EditAlumnoCmd;
 import com.example.proyecto_satapp_Carlos_Rafa.util.EditIncidenciaCmd;
+import com.example.proyecto_satapp_Carlos_Rafa.util.EditTecnicoCmd;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -63,6 +65,14 @@ public class TecnicoService {
         return incidencia;
     }
 
+    public Tecnico saveTecnico(EditTecnicoCmd editTecnicoCmd) {
+        return tecnicoRepository.save(Tecnico.builder()
+                .email(editTecnicoCmd.email())
+                .role(editTecnicoCmd.role())
+                .password(editTecnicoCmd.password())
+                .username(editTecnicoCmd.username())
+                .build());
+    }
 
 
 

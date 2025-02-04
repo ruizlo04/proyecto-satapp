@@ -5,10 +5,7 @@ import com.example.proyecto_satapp_Carlos_Rafa.models.Incidencia;
 import com.example.proyecto_satapp_Carlos_Rafa.models.Tecnico;
 import com.example.proyecto_satapp_Carlos_Rafa.services.IncidenciaService;
 import com.example.proyecto_satapp_Carlos_Rafa.services.TecnicoService;
-import com.example.proyecto_satapp_Carlos_Rafa.util.EditIncidenciaCmd;
-import com.example.proyecto_satapp_Carlos_Rafa.util.GetPersonalDto;
-import com.example.proyecto_satapp_Carlos_Rafa.util.GetTecnicoDto;
-import com.example.proyecto_satapp_Carlos_Rafa.util.GetUsuarioDto;
+import com.example.proyecto_satapp_Carlos_Rafa.util.*;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -84,6 +81,12 @@ public class TecnicoController {
         Incidencia incidencia = tecnicoService.gestionarIncidencia(incidenciaId, incidenciaCmd);
 
         return ResponseEntity.ok(incidencia);
+    }
+
+    @PostMapping("/nuevo")
+    public GetTecnicoDto saveTecnico(@RequestBody EditTecnicoCmd tecnicoNuevo) {
+        Tecnico tecnico =  tecnicoService.saveTecnico(tecnicoNuevo);
+        return GetTecnicoDto.of(tecnico);
     }
 
 }
