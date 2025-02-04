@@ -5,6 +5,7 @@ import com.example.proyecto_satapp_Carlos_Rafa.models.Usuario;
 import com.example.proyecto_satapp_Carlos_Rafa.repositories.IncidenciaRepository;
 import com.example.proyecto_satapp_Carlos_Rafa.repositories.UsuarioRepository;
 import com.example.proyecto_satapp_Carlos_Rafa.util.EditIncidenciaCmd;
+import com.example.proyecto_satapp_Carlos_Rafa.util.EditUsuarioCmd;
 import com.example.proyecto_satapp_Carlos_Rafa.util.GetIncidenciaDto;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -61,6 +62,14 @@ public class UsuarioService {
         return incidencia;
     }
 
+    public Usuario save(EditUsuarioCmd nuevo) {
+        return usuarioRepository.save(Usuario.builder()
+                .username(nuevo.username())
+                .password(nuevo.password())
+                .email(nuevo.email())
+                .role(nuevo.role())
+                .build());
+    }
 
 
     public void delete(Long id) {

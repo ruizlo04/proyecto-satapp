@@ -71,7 +71,7 @@ public class AlumnoController {
         return GetAlumnoDto.of(alumnoService.findById(id));
     }
 
-    @PostMapping
+    @PostMapping("/nuevo")
     public GetAlumnoDto saveAlumno(@RequestBody EditAlumnoCmd alumnoNuevo) {
         Alumno alumno = alumnoService.saveAlumno(alumnoNuevo);
         return GetAlumnoDto.of(alumno);

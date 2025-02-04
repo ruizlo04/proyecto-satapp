@@ -4,6 +4,7 @@ import com.example.proyecto_satapp_Carlos_Rafa.models.Incidencia;
 import com.example.proyecto_satapp_Carlos_Rafa.models.Usuario;
 import com.example.proyecto_satapp_Carlos_Rafa.services.UsuarioService;
 import com.example.proyecto_satapp_Carlos_Rafa.util.EditIncidenciaCmd;
+import com.example.proyecto_satapp_Carlos_Rafa.util.EditUsuarioCmd;
 import com.example.proyecto_satapp_Carlos_Rafa.util.GetIncidenciaDto;
 import com.example.proyecto_satapp_Carlos_Rafa.util.GetUsuarioDto;
 import io.swagger.v3.oas.annotations.Operation;
@@ -75,6 +76,13 @@ public class UsuarioController {
     @PostMapping("/{usuarioId}/incidencias")
     public ResponseEntity<GetIncidenciaDto> abrirIncidencia(@PathVariable Long usuarioId, @RequestBody EditIncidenciaCmd incidenciaCmd) {
         return ResponseEntity.status(HttpStatus.CREATED).body(GetIncidenciaDto.of(usuarioService.abrirIncidencia(usuarioId, incidenciaCmd)));
+    }
+
+    @PostMapping("/nuevo")
+    public ResponseEntity<Usuario> create(@RequestBody EditUsuarioCmd nuevo) {
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(
+                        usuarioService.save(nuevo));
     }
 
 }

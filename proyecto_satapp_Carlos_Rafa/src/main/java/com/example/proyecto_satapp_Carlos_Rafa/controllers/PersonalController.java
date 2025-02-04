@@ -2,9 +2,9 @@ package com.example.proyecto_satapp_Carlos_Rafa.controllers;
 
 import com.example.proyecto_satapp_Carlos_Rafa.models.Alumno;
 import com.example.proyecto_satapp_Carlos_Rafa.models.Personal;
+import com.example.proyecto_satapp_Carlos_Rafa.models.Tecnico;
 import com.example.proyecto_satapp_Carlos_Rafa.services.PersonalService;
-import com.example.proyecto_satapp_Carlos_Rafa.util.GetPersonalDto;
-import com.example.proyecto_satapp_Carlos_Rafa.util.GetUsuarioDto;
+import com.example.proyecto_satapp_Carlos_Rafa.util.*;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -15,10 +15,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -70,5 +67,11 @@ public class PersonalController {
     @GetMapping("/{id}")
     public GetPersonalDto getById(@PathVariable Long id){
         return GetPersonalDto.of(personalService.findById(id));
+    }
+
+    @PostMapping("/nuevo")
+    public GetPersonalDto savePersonal(@RequestBody EditPersonalCmd personalNuevo) {
+        Personal personal =  personalService.savePersonal(personalNuevo);
+        return GetPersonalDto.of(personal);
     }
 }
