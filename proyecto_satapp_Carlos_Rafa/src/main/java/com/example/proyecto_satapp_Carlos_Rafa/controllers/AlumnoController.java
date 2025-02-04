@@ -54,7 +54,6 @@ public class AlumnoController {
 
     }
 
-
     @Operation(summary = "Obtiene un alumno por su ID")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200",
