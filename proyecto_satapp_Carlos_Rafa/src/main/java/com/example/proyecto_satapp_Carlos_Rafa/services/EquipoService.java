@@ -1,5 +1,6 @@
 package com.example.proyecto_satapp_Carlos_Rafa.services;
 
+import com.example.proyecto_satapp_Carlos_Rafa.error.EquipoNotFoundExcepcion;
 import com.example.proyecto_satapp_Carlos_Rafa.models.Equipo;
 import com.example.proyecto_satapp_Carlos_Rafa.models.Ubicacion;
 import com.example.proyecto_satapp_Carlos_Rafa.repositories.EquipoRepository;
@@ -21,7 +22,7 @@ public class EquipoService {
     public List<Equipo> findAll(){
         List <Equipo> results = equipoRepository.getAllEquipos();
         if (results.isEmpty()){
-            throw new EntityNotFoundException("No existe ningún equipo aún");
+            throw new EquipoNotFoundExcepcion("No existe ningún equipo aún");
         }
         return results;
     }
@@ -29,7 +30,7 @@ public class EquipoService {
     public Equipo findById(Long id){
         Optional <Equipo> findIncidenciaOp = equipoRepository.getEquipoById(id);
         if (findIncidenciaOp.isEmpty()){
-            throw new EntityNotFoundException("No se ha encontrado equipo con ese ID");
+            throw new EquipoNotFoundExcepcion("No se ha encontrado equipo con ese ID");
         }
         return findIncidenciaOp.get();
     }
