@@ -71,14 +71,13 @@ public class EquipoController {
             @ApiResponse(responseCode = "201",
                     description = "Equipo creado con éxito",
                     content = { @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = Equipo.class))}),
+                            schema = @Schema(implementation = GetEquipoDto.class))}),
             @ApiResponse(responseCode = "400",
                     description = "Datos inválidos para crear el equipo",
                     content = @Content)
     })
     @PostMapping("/")
-    public ResponseEntity<Equipo> create(@RequestBody EditEquipoCmd nuevo) {
-        return ResponseEntity.status(HttpStatus.CREATED)
-                .body(equipoService.save(nuevo));
+    public ResponseEntity<GetEquipoDto> create(@RequestBody EditEquipoCmd nuevo) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(GetEquipoDto.of(equipoService.save(nuevo)));
     }
 }
