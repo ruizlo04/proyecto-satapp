@@ -76,24 +76,28 @@ public class UsuarioService {
     }
 
     public Usuario edit(EditUsuarioCmd editUsuarioCmd, Long id) {
-        return usuarioRepository.findById(id)
-                .map(old -> {
-                    old.setUsername(editUsuarioCmd.username());
-                    old.setPassword(editUsuarioCmd.password());
-                    old.setEmail(editUsuarioCmd.email());
-                    old.setRole(editUsuarioCmd.role());
-                    return usuarioRepository.save(old);
-                })
-                .orElseThrow(() -> new UsuarioNotFoundException("No hay usuario con ID: "+ id));
+        Optional<Usuario> optionalUsuario = usuarioRepository.findById(id);
 
+        if (optionalUsuario.isEmpty()) {
+            throw new UsuarioNotFoundException(id);
+        }
+
+        Usuario usuario = optionalUsuario.get();
+        usuario.setUsername(editUsuarioCmd.username());
+        usuario.setPassword(editUsuarioCmd.password());
+        usuario.setEmail(editUsuarioCmd.email());
+        usuario.setRole(editUsuarioCmd.role());
+
+        return usuarioRepository.save(usuario);
     }
+
 
 
     public void deleteById(Long id) {
         Optional<Usuario> usuarioOp = usuarioRepository.findById(id);
 
         if (usuarioOp.isEmpty()) {
-            throw new EntityNotFoundException("Usuario no encontrado");
+            throw new UsuarioNotFoundException("Usuario no encontrado");
         }
 
         usuarioRepository.deleteById(id);
