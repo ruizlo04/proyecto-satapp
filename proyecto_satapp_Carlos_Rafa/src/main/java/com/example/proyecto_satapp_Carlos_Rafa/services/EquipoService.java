@@ -2,8 +2,10 @@ package com.example.proyecto_satapp_Carlos_Rafa.services;
 
 import com.example.proyecto_satapp_Carlos_Rafa.error.EquipoNotFoundExcepcion;
 import com.example.proyecto_satapp_Carlos_Rafa.models.Equipo;
+import com.example.proyecto_satapp_Carlos_Rafa.models.Incidencia;
 import com.example.proyecto_satapp_Carlos_Rafa.models.Ubicacion;
 import com.example.proyecto_satapp_Carlos_Rafa.repositories.EquipoRepository;
+import com.example.proyecto_satapp_Carlos_Rafa.repositories.IncidenciaRepository;
 import com.example.proyecto_satapp_Carlos_Rafa.repositories.UbicacionRepository;
 import com.example.proyecto_satapp_Carlos_Rafa.util.EditEquipoCmd;
 import jakarta.persistence.EntityNotFoundException;
@@ -19,7 +21,7 @@ public class EquipoService {
 
     private final EquipoRepository equipoRepository;
     private final UbicacionService ubicacionService;
-    private final UbicacionRepository ubicacionRepository;
+    private final IncidenciaRepository incidenciaRepository;
 
     public List<Equipo> findAll(){
         List <Equipo> results = equipoRepository.getAllEquipos();
@@ -62,6 +64,22 @@ public class EquipoService {
         equipo.setUbicacion(ubicacionOptional.get());
 
         return equipoRepository.save(equipo);
+    }
+
+    public void deleteById(Long id){
+        Optional <Equipo> equipoOptional = equipoRepository.findById(id);
+
+        if (equipoOptional.isEmpty()){
+            throw new EquipoNotFoundExcepcion("No se ha encontrado el equipo con ese id");
+        }
+
+        List<Incidencia> incidencias = incidenciaRepository.findByEquipoId(id);
+        for (Incidencia incidencia : incidencias) {
+            incidencia.setEquipo(null);
+            incidenciaRepository.save(incidencia);
+        }
+
+        equipoRepository.deleteById(id);
     }
 
 }

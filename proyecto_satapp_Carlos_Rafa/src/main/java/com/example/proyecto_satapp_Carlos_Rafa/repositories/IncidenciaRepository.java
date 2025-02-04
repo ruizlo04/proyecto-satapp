@@ -20,4 +20,9 @@ public interface IncidenciaRepository extends JpaRepository<Incidencia, Long> {
             WHERE i.ubicacion.id = :ubicacionId""")
     List<Incidencia> findByUbicacionId(@Param("ubicacionId") Long ubicacionId);
 
+    @Query("""
+            SELECT i 
+            FROM Incidencia i 
+            WHERE i.equipo.id = :equipoId""")
+    List<Incidencia> findByEquipoId(@Param("equipoId") Long equipoId);
 }
