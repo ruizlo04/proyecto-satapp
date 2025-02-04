@@ -14,10 +14,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
@@ -82,5 +79,11 @@ public class UbicacionController {
     public ResponseEntity<Optional<Ubicacion>> getByNombre(@PathVariable String nombre) {
         Optional<Ubicacion> ubicacion = ubicacionService.findByNombre(nombre);
         return ResponseEntity.ok(ubicacion);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> delete(@PathVariable Long id) {
+        ubicacionService.deleteById(id);
+        return ResponseEntity.noContent().build();
     }
 }
