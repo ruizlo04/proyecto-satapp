@@ -1,5 +1,6 @@
 package com.example.proyecto_satapp_Carlos_Rafa.services;
 
+import com.example.proyecto_satapp_Carlos_Rafa.error.AlumnoNotFoundException;
 import com.example.proyecto_satapp_Carlos_Rafa.models.Alumno;
 import com.example.proyecto_satapp_Carlos_Rafa.models.HistoricoCursos;
 import com.example.proyecto_satapp_Carlos_Rafa.models.Usuario;
@@ -22,14 +23,14 @@ public class AlumnoService {
     public List<Alumno> findAll(){
         List<Alumno> result = alumnoRepository.findAll();
         if(result.isEmpty())
-            throw new EntityNotFoundException("No hay alumnos con esos criterios de busqueda");
+            throw new AlumnoNotFoundException("No hay alumnos con esos criterios de busqueda");
         return result;
     }
 
     public Alumno findById(Long id) {
         Optional<Alumno> result = alumnoRepository.findById(id);
         if(result.isEmpty())
-            throw new EntityNotFoundException("No se encontró alumno con ese id");
+            throw new AlumnoNotFoundException("No se encontró alumno con ese id");
         else {
             return result.get();
         }
@@ -59,16 +60,19 @@ public class AlumnoService {
     }
 
     public Alumno edit(EditAlumnoCmd editAlumnoCmd, Long id) {
-        return alumnoRepository.findById(id)
-                .map(old -> {
-                    old.setUsername(editAlumnoCmd.username());
-                    old.setPassword(editAlumnoCmd.password());
-                    old.setEmail(editAlumnoCmd.email());
-                    old.setRole(editAlumnoCmd.role());
-                    return alumnoRepository.save(old);
-                })
-                .orElseThrow(() -> new EntityNotFoundException("No hay alumno con ID: "+ id));
+        Optional<Alumno> optionalAlumno = alumnoRepository.findById(id);
 
+        if (optionalAlumno.isEmpty()) {
+            throw new AlumnoNotFoundException(id);
+        }
+
+        Alumno old = optionalAlumno.get();
+        old.setUsername(editAlumnoCmd.username());
+        old.setPassword(editAlumnoCmd.password());
+        old.setEmail(editAlumnoCmd.email());
+        old.setRole(editAlumnoCmd.role());
+
+        return alumnoRepository.save(old);
     }
 
 
@@ -76,7 +80,7 @@ public class AlumnoService {
         Optional<Alumno> alumnoOp = alumnoRepository.findById(id);
 
         if (alumnoOp.isEmpty()) {
-            throw new EntityNotFoundException("Alumno no encontrado");
+            throw new AlumnoNotFoundException("Alumno no encontrado");
         }
 
         alumnoRepository.deleteById(id);
