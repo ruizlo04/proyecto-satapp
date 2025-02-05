@@ -1,7 +1,7 @@
-INSERT INTO usuario (id, username) VALUES (nextval ('usuario_seq'), 'RuizloCar');
-INSERT INTO usuario (id, username) VALUES (nextval ('usuario_seq'), 'SoyYo' );
-INSERT INTO usuario (id, username) VALUES (nextval ('usuario_seq'), 'User1234');
-INSERT INTO usuario (id, username) VALUES (nextval ('usuario_seq'), 'User12345');
+INSERT INTO usuario (id, username, password, email, role) VALUES (nextval ('usuario_seq'), 'RuizloCar', '1234', 'Ruizlocar@gmail', 'USER');
+INSERT INTO usuario (id, username, password, email, role) VALUES (nextval ('usuario_seq'), 'SoyYo' , '12345', 'SoyYo@gmail', 'USER');
+INSERT INTO usuario (id, username, password, email, role) VALUES (nextval ('usuario_seq'), 'User1234', '123456', 'User1234@gmail', 'USER');
+INSERT INTO usuario (id, username, password, email, role) VALUES (nextval ('usuario_seq'), 'User12345', '1234567', 'User12345@gmail', 'USER');
 
 INSERT INTO ubicaciones (id, nombre) VALUES (nextval('ubicaciones_seq'), 'Ubicacion1');
 INSERT INTO ubicaciones (id, nombre) VALUES (nextval('ubicaciones_seq'), 'Ubicacion2');
