@@ -92,7 +92,15 @@ public class UbicacionController {
                     content = @Content)
     })
     @PostMapping("/")
-    public ResponseEntity<GetUbicacionDto> create(@RequestBody GetUbicacionDto nuevo) {
+    public ResponseEntity<GetUbicacionDto> create(@io.swagger.v3.oas.annotations.parameters.RequestBody(
+            description = "Cuerpo de la ubicación", required = true,
+            content = @Content(mediaType = "application/json",
+                    schema = @Schema(implementation = GetUbicacionDto.class),
+                    examples = @ExampleObject(value = """
+                                {
+                                    "nombre": "Ubicacion1"
+                                }
+                    """)))@RequestBody GetUbicacionDto nuevo) {
         return ResponseEntity.status(HttpStatus.CREATED).body(GetUbicacionDto.of(ubicacionService.createUbicacion(nuevo)));
     }
 

@@ -8,6 +8,6 @@ public record EditNotaCmd(
         LocalDate fecha,
         String contenido,
         String autor,
-        Incidencia incidencia
+        Long incidenciaId
 ) {
 }

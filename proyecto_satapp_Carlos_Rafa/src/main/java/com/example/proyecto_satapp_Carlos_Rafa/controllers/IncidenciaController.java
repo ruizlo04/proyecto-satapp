@@ -3,6 +3,7 @@ package com.example.proyecto_satapp_Carlos_Rafa.controllers;
 import com.example.proyecto_satapp_Carlos_Rafa.models.Incidencia;
 import com.example.proyecto_satapp_Carlos_Rafa.models.Nota;
 import com.example.proyecto_satapp_Carlos_Rafa.services.IncidenciaService;
+import com.example.proyecto_satapp_Carlos_Rafa.util.EditEquipoCmd;
 import com.example.proyecto_satapp_Carlos_Rafa.util.EditIncidenciaCmd;
 import com.example.proyecto_satapp_Carlos_Rafa.util.EditNotaCmd;
 import com.example.proyecto_satapp_Carlos_Rafa.util.GetIncidenciaDto;
@@ -81,7 +82,22 @@ public class IncidenciaController {
                     content = @Content)
     })
     @PostMapping("/")
-    public ResponseEntity<Incidencia> create(@RequestBody EditIncidenciaCmd nuevo) {
+    public ResponseEntity<Incidencia> create(@io.swagger.v3.oas.annotations.parameters.RequestBody(
+            description = "Cuerpo de la incidencia", required = true,
+            content = @Content(mediaType = "application/json",
+                    schema = @Schema(implementation = EditIncidenciaCmd.class),
+                    examples = @ExampleObject(value = """
+                                {
+                                          "fecha": "2025-02-05T11:40:48.297Z",
+                                          "titulo": "string",
+                                          "descripcion": "string",
+                                          "urgencia": true,
+                                          "estado": "ABIERTA",
+                                          "ubicacionId": 0,
+                                          "equipoId": 0,
+                                          "usuarioId": 0
+                                }
+                    """)))@RequestBody EditIncidenciaCmd nuevo) {
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(incidenciaService.save(nuevo));
     }
@@ -112,7 +128,18 @@ public class IncidenciaController {
                     content = @Content)
     })
     @PostMapping("/{id}/notas")
-    public ResponseEntity<GetIncidenciaDto> addNotaToIncidencia(@PathVariable Long id, @RequestBody EditNotaCmd nota) {
+    public ResponseEntity<GetIncidenciaDto> addNotaToIncidencia(@io.swagger.v3.oas.annotations.parameters.RequestBody(
+            description = "Cuerpo de la incidencia", required = true,
+            content = @Content(mediaType = "application/json",
+                    schema = @Schema(implementation = EditIncidenciaCmd.class),
+                    examples = @ExampleObject(value = """
+                                {
+                                          "fecha": "2025-02-05",
+                                          "contenido": "string",
+                                          "autor": "string",
+                                          "incidenciaId": 0
+                                }
+                    """)))@PathVariable Long id, @RequestBody EditNotaCmd nota) {
         return ResponseEntity.status(HttpStatus.CREATED).body(GetIncidenciaDto.of(incidenciaService.addNotaToIncidencia(id, nota)));
     }
 
