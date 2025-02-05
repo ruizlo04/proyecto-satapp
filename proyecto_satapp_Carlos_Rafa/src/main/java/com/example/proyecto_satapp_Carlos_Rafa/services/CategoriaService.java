@@ -7,10 +7,14 @@ import com.example.proyecto_satapp_Carlos_Rafa.models.Incidencia;
 import com.example.proyecto_satapp_Carlos_Rafa.repositories.CategoriaRepository;
 import com.example.proyecto_satapp_Carlos_Rafa.repositories.IncidenciaRepository;
 import com.example.proyecto_satapp_Carlos_Rafa.util.EditCategoriaCmd;
+import com.example.proyecto_satapp_Carlos_Rafa.util.GetCategoriaDto;
+import com.example.proyecto_satapp_Carlos_Rafa.util.GetIncidenciaDto;
+import com.example.proyecto_satapp_Carlos_Rafa.util.GetTecnicoDto;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,8 +26,9 @@ public class CategoriaService {
     private final IncidenciaRepository incidenciaRepository;
 
     @Transactional
-    public List<Categoria> findAll(){
+    public List<GetCategoriaDto> findAll(){
         List<Categoria> result = categoriaRepository.findAll();
+        List<GetCategoriaDto> dtos = result.stream().map(GetCategoriaDto::of).toList();
         if(result.isEmpty())
             throw new CategoriaNotFoundException("No existe ninguna categoría");
 
@@ -35,12 +40,15 @@ public class CategoriaService {
                     .ifPresent(c -> categoria.setSubcategoria(c.getSubcategoria()));
         });
 
-        return result;
+        return dtos;
     }
 
     @Transactional
     public Categoria findById(Long id){
         Optional<Categoria> categoriaOp = categoriaRepository.findByIdWithIncidencias(id);
+
+        Optional<GetCategoriaDto> dto = categoriaOp.map(GetCategoriaDto::of);
+
 
         if (categoriaOp.isEmpty()) {
             throw new CategoriaNotFoundException("No existe categoría con ese id");

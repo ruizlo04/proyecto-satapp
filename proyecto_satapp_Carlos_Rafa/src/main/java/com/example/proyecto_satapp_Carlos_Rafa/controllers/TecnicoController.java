@@ -138,7 +138,7 @@ public class TecnicoController {
     })
 
     @PutMapping("/{id}")
-    public Tecnico edit(@io.swagger.v3.oas.annotations.parameters.RequestBody(
+    public ResponseEntity<GetTecnicoDto> edit(@io.swagger.v3.oas.annotations.parameters.RequestBody(
             description = "Cuerpo del equipo", required = true,
             content = @Content(mediaType = "application/json",
                     schema = @Schema(implementation = EditTecnicoCmd.class),
@@ -153,7 +153,7 @@ public class TecnicoController {
                                         }
                     """)))@RequestBody EditTecnicoCmd aEditar,
                         @PathVariable Long id) {
-        return tecnicoService.edit(aEditar, id);
+        return ResponseEntity.ok(GetTecnicoDto.of(tecnicoService.edit(aEditar, id)));
     }
 
     @Operation(summary = "Elimina un tecnico por su ID")
