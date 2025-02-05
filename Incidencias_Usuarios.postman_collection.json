@@ -3,8 +3,8 @@
 		"_postman_id": "6fe40603-b545-47f3-8ba1-6897a81c3d36",
 		"name": "Incidencias_Usuarios",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "38690870",
-		"_collection_link": "https://tmdb77.postman.co/workspace/Workspace_SetApp~57f1ee88-a64d-47c7-867e-7a18bd72bcac/collection/38690870-6fe40603-b545-47f3-8ba1-6897a81c3d36?action=share&source=collection_link&creator=38690870"
+		"_exporter_id": "38617766",
+		"_collection_link": "https://tmdb77.postman.co/workspace/Workspace_SetApp~57f1ee88-a64d-47c7-867e-7a18bd72bcac/collection/38690870-6fe40603-b545-47f3-8ba1-6897a81c3d36?action=share&source=collection_link&creator=38617766"
 	},
 	"item": [
 		{
@@ -20,7 +20,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"fecha\": \"2025-02-02\",\r\n    \"contenido\": \"hola q pasa\",\r\n    \"autor\": \"ruislo\"\r\n}",
+							"raw": "{\r\n    \"fecha\": \"2025-02-02 05:03:02\",\r\n    \"contenido\": \"hola q pasa\",\r\n    \"autor\": \"ruislo\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -44,7 +44,17 @@
 					"name": "GetById",
 					"request": {
 						"method": "GET",
-						"header": []
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/user/1",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"user",
+								"1"
+							]
+						}
 					},
 					"response": []
 				},
@@ -52,7 +62,26 @@
 					"name": "Edit",
 					"request": {
 						"method": "PUT",
-						"header": []
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": " {\r\n        \"id\": 1,\r\n        \"username\": \"RuizloCarrrr\",\r\n        \"password\": null,\r\n        \"email\": null,\r\n        \"role\": null\r\n    }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/user/1",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"user",
+								"1"
+							]
+						}
 					},
 					"response": []
 				},
@@ -60,7 +89,26 @@
 					"name": "Save",
 					"request": {
 						"method": "POST",
-						"header": []
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": " {\r\n        \"id\": 2,\r\n        \"username\": \"Pepon\",\r\n        \"password\": null,\r\n        \"email\": null,\r\n        \"role\": null\r\n    }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/user/nuevo",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"user",
+								"nuevo"
+							]
+						}
 					},
 					"response": []
 				},
@@ -68,7 +116,45 @@
 					"name": "Delete",
 					"request": {
 						"method": "DELETE",
-						"header": []
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/user/1",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"user",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "AbrirIncidencia",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n        \"fechaIncidencia\": \"2025-01-29T13:10:00\",\r\n        \"titulo\": \"incidencia3\",\r\n        \"descripcion\": \"esta incidencia es de prueba\",\r\n        \"urgencia\": true,\r\n        \"estado\": \"ABIERTA\",\r\n        \"ubicacion\": {\r\n            \"id\": 1,\r\n            \"nombre\": \"ubicacion1\"\r\n        },\r\n        \"equipo\": {\r\n                    \"nombre\": \"Equipo1\",\r\n        \"caracteristicas\": [\r\n            \"[\\\"CaracterÃ­stica 1\\\", \\\"CaracterÃ­stica 2\\\", \\\"CaracterÃ­stica 3\\\"]\"\r\n        ],\r\n        \"ubicacionId\": 1\r\n        },\r\n        \"usuario\": {\r\n            \"id\": 151,\r\n            \"username\": \"User12345\",\r\n            \"password\": null,\r\n            \"email\": null,\r\n            \"role\": null\r\n        }\r\n\r\n    }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/user/101/incidencias",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"user",
+								"101",
+								"incidencias"
+							]
+						}
 					},
 					"response": []
 				}
@@ -81,7 +167,17 @@
 					"name": "GetAll",
 					"request": {
 						"method": "GET",
-						"header": []
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/alumno/",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"alumno",
+								""
+							]
+						}
 					},
 					"response": []
 				},
@@ -89,7 +185,17 @@
 					"name": "GetById",
 					"request": {
 						"method": "GET",
-						"header": []
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/alumno/151",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"alumno",
+								"151"
+							]
+						}
 					},
 					"response": []
 				},
@@ -97,7 +203,26 @@
 					"name": "Edit",
 					"request": {
 						"method": "PUT",
-						"header": []
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": 1,\r\n    \"username\": \"RuizloCarrr\",\r\n    \"password\": null,\r\n    \"email\": \"si@si\",\r\n    \"role\": null,\r\n    \"historicoCursos\": [\r\n        {\r\n            \"cursoEscolar\": \"2024-2025\",\r\n            \"curso\": \"2ÂºDAM\"\r\n        },\r\n        {\r\n            \"cursoEscolar\": \"2023-2024\",\r\n            \"curso\": \"1ÂºDAM\"\r\n        }\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/alumno/151",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"alumno",
+								"151"
+							]
+						}
 					},
 					"response": []
 				},
@@ -105,7 +230,26 @@
 					"name": "Save",
 					"request": {
 						"method": "POST",
-						"header": []
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": 1,\r\n    \"username\": \"Nose\",\r\n    \"password\": null,\r\n    \"email\": null,\r\n    \"role\": null,\r\n    \"historicoCursos\": [\r\n        {\r\n            \"cursoEscolar\": \"2024-2025\",\r\n            \"curso\": \"2ÂºDAM\"\r\n        },\r\n        {\r\n            \"cursoEscolar\": \"2023-2024\",\r\n            \"curso\": \"1ÂºDAM\"\r\n        }\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/alumno/nuevo",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"alumno",
+								"nuevo"
+							]
+						}
 					},
 					"response": []
 				},
@@ -113,7 +257,17 @@
 					"name": "Delete",
 					"request": {
 						"method": "DELETE",
-						"header": []
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/alumno/151",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"alumno",
+								"151"
+							]
+						}
 					},
 					"response": []
 				}
@@ -126,7 +280,17 @@
 					"name": "GetById",
 					"request": {
 						"method": "GET",
-						"header": []
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/personal/101",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"personal",
+								"101"
+							]
+						}
 					},
 					"response": []
 				},
@@ -134,7 +298,17 @@
 					"name": "GetAll",
 					"request": {
 						"method": "GET",
-						"header": []
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/personal/",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"personal",
+								""
+							]
+						}
 					},
 					"response": []
 				},
@@ -142,7 +316,26 @@
 					"name": "Edit",
 					"request": {
 						"method": "PUT",
-						"header": []
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n        \"id\": 101,\r\n        \"username\": \"User12345\",\r\n        \"password\": null,\r\n        \"email\": \"email@email\",\r\n        \"role\": null,\r\n        \"tipo\": \"PROFESOR\"\r\n    }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/personal/101",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"personal",
+								"101"
+							]
+						}
 					},
 					"response": []
 				},
@@ -150,7 +343,26 @@
 					"name": "Save",
 					"request": {
 						"method": "POST",
-						"header": []
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": 2,\r\n    \"username\": \"SISISIIS\",\r\n    \"password\": null,\r\n    \"email\": \"email@email\",\r\n    \"role\": null,\r\n    \"tipo\": \"PROFESOR\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/user/nuevo",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"user",
+								"nuevo"
+							]
+						}
 					},
 					"response": []
 				},
@@ -158,7 +370,17 @@
 					"name": "Delete",
 					"request": {
 						"method": "DELETE",
-						"header": []
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/personal/101",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"personal",
+								"101"
+							]
+						}
 					},
 					"response": []
 				}
@@ -171,7 +393,17 @@
 					"name": "GetAll",
 					"request": {
 						"method": "GET",
-						"header": []
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/tecnico/",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"tecnico",
+								""
+							]
+						}
 					},
 					"response": []
 				},
@@ -179,7 +411,17 @@
 					"name": "GetById",
 					"request": {
 						"method": "GET",
-						"header": []
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/tecnico/51",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"tecnico",
+								"51"
+							]
+						}
 					},
 					"response": []
 				},
@@ -187,7 +429,26 @@
 					"name": "Edit",
 					"request": {
 						"method": "PUT",
-						"header": []
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": 51,\r\n    \"username\": \"NoSoyYo\",\r\n    \"password\": \"12345\",\r\n    \"email\": \"SoyYo@gmail\",\r\n    \"role\": \"USER\",\r\n    \"incidencias\": []\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/tecnico/51",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"tecnico",
+								"51"
+							]
+						}
 					},
 					"response": []
 				},
@@ -203,7 +464,45 @@
 					"name": "Delete",
 					"request": {
 						"method": "DELETE",
-						"header": []
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/tecnico/51",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"tecnico",
+								"51"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GestionarIncidencia",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"fechaIncidencia\": \"2025-01-29T13:10:00\",\r\n    \"titulo\": \"incidencia1\",\r\n    \"descripcion\": \"esta incidencia es de prueba\",\r\n    \"urgencia\": true,\r\n    \"estado\": \"CERRADA\",\r\n    \"notas\": [],\r\n    \"usuario\": {\r\n        \"id\": 1,\r\n        \"username\": \"RuizloCar\",\r\n        \"password\": null,\r\n        \"email\": null,\r\n        \"role\": null\r\n    },\r\n    \"tecnicos\": [\r\n        {\r\n            \"id\": 51,\r\n            \"username\": \"SoyYo\",\r\n            \"password\": null,\r\n            \"email\": null,\r\n            \"role\": null,\r\n            \"incidencias\": []\r\n        }\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/tecnico/gestionar-incidencia/1",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"tecnico",
+								"gestionar-incidencia",
+								"1"
+							]
+						}
 					},
 					"response": []
 				}
@@ -219,7 +518,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"fecha\": \"2025-03-02\",\r\n    \"contenido\": \"aeiou\",\r\n    \"autor\": \"ruislo04\"\r\n}",
+							"raw": "{\r\n    \"fecha\": \"2025-03-02\",\r\n    \"contenido\": \"Teyy\",\r\n    \"autor\": \"ruislo04\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -340,6 +639,269 @@
 							],
 							"path": [
 								"equipo",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "saveEquipo",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nombre\": \"EquipoRuizlo\",\r\n    \"caracteristicas\": [\r\n        \"Característica 1\",\r\n        \"Característica 2\",\r\n        \"Característica 3\"\r\n    ],\r\n    \"ubicacionId\": 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/equipo/",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"equipo",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "editEquipo",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nombre\": \"Equipo1\",\r\n    \"caracteristicas\": [\r\n        \"Buen estado\",\r\n        \"Característica 2\",\r\n        \"Característica 3\"\r\n    ],\r\n    \"ubicacionId\": 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/equipo/1",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"equipo",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteEquipo",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/equipo/1",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"equipo",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Ubicacion",
+			"item": [
+				{
+					"name": "getAll",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/ubicacion/",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"ubicacion",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getUbicacionById",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/ubicacion/1",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"ubicacion",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getUbicacionByNombre",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/ubicacion/nombre/ubicacion1",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"ubicacion",
+								"nombre",
+								"ubicacion1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteById",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/ubicacion/1",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"ubicacion",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "createUbicacion",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nombre\": \"Coria del Río\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/ubicacion/",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"ubicacion",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Categoria",
+			"item": [
+				{
+					"name": "getAll",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/categoria/",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"categoria",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getById",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/categoria/1",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"categoria",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "createCategoria",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n        \"id\": 2,\r\n        \"nombre\": \"CategoriaLocos\",\r\n        \"incidencia\": [\r\n            {\r\n                \"fechaIncidencia\": \"2025-01-29T13:10:00\",\r\n                \"titulo\": \"incidencia2\",\r\n                \"descripcion\": \"esta incidencia es de prueba\",\r\n                \"urgencia\": true,\r\n                \"estado\": \"ABIERTA\",\r\n                \"notas\": [],\r\n                \"usuario\": {\r\n                    \"id\": 1,\r\n                    \"username\": \"RuizloCar\",\r\n                    \"password\": null,\r\n                    \"email\": null,\r\n                    \"role\": null\r\n                },\r\n                \"tecnicos\": [\r\n                    {\r\n                        \"id\": 51,\r\n                        \"username\": \"SoyYo\",\r\n                        \"password\": null,\r\n                        \"email\": null,\r\n                        \"role\": null,\r\n                        \"incidencias\": []\r\n                    }\r\n                ]\r\n            }\r\n        ],\r\n        \"padre\": null,\r\n        \"subcategorias\": []\r\n    }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/categoria/",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"categoria",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteCategoria",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/categoria/1",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"categoria",
 								"1"
 							]
 						}
