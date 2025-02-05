@@ -28,7 +28,7 @@ public class Usuario {
     private String role;
 
     @OneToMany(mappedBy = "usuario",
-            fetch = FetchType.EAGER,
+            fetch = FetchType.LAZY,
             cascade = CascadeType.ALL,
             orphanRemoval = true
             )

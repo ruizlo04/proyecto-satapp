@@ -88,15 +88,15 @@ public class TecnicoController {
                     description = "Error en los datos proporcionados",
                     content = @Content)
     })
-    @PutMapping("/incidencias/{incidenciaId}")
+    @PutMapping("/incidencia/{incidenciaId}/")
     public ResponseEntity<Incidencia> gestionarIncidencia(
             @PathVariable Long incidenciaId,
             @RequestBody EditIncidenciaCmd incidenciaCmd) {
 
         Incidencia incidencia = tecnicoService.gestionarIncidencia(incidenciaId, incidenciaCmd);
-
         return ResponseEntity.ok(incidencia);
     }
+
 
     @Operation(summary = "Crea un nuevo tecnico")
     @ApiResponses(value = {

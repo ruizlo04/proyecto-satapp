@@ -28,6 +28,7 @@ public class Incidencia {
 
     private boolean urgencia;
 
+
     @Enumerated(EnumType.STRING)
     private TipoEstado estado;
 
@@ -36,7 +37,7 @@ public class Incidencia {
                 foreignKey = @ForeignKey(name = "fk_incidencia_usuario"))
     private Usuario usuario;
 
-    @ManyToMany(mappedBy = "incidenciasAsignadas", fetch = FetchType.EAGER)
+    @ManyToMany(mappedBy = "incidenciasAsignadas", fetch = FetchType.LAZY)
     @Builder.Default
     @Setter(AccessLevel.NONE)
     @ToString.Exclude
@@ -57,7 +58,7 @@ public class Incidencia {
     @Builder.Default
     @OneToMany(
             mappedBy="incidencia",
-            fetch = FetchType.EAGER,
+            fetch = FetchType.LAZY,
             cascade = CascadeType.ALL,
             orphanRemoval = true
     )
