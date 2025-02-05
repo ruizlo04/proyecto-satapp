@@ -1,11 +1,13 @@
 package com.example.proyecto_satapp_Carlos_Rafa.services;
 
 import com.example.proyecto_satapp_Carlos_Rafa.error.IncidenciaNotFoundExcepcion;
+import com.example.proyecto_satapp_Carlos_Rafa.error.TecnicoNotFoundException;
 import com.example.proyecto_satapp_Carlos_Rafa.models.*;
 import com.example.proyecto_satapp_Carlos_Rafa.repositories.IncidenciaRepository;
 import com.example.proyecto_satapp_Carlos_Rafa.util.EditIncidenciaCmd;
 import com.example.proyecto_satapp_Carlos_Rafa.util.EditNotaCmd;
 import com.example.proyecto_satapp_Carlos_Rafa.util.GetIncidenciaDto;
+import com.example.proyecto_satapp_Carlos_Rafa.util.GetTecnicoDto;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -37,17 +39,21 @@ public class IncidenciaService {
     }
 
     @Transactional
-    public Incidencia findById(Long id){
-        Optional <Incidencia> findIncidenciaOp = incidenciaRepository.findById(id);
+    public Incidencia findById(Long id) {
+        Optional<Incidencia> result = incidenciaRepository.findById(id);
 
-        Optional<GetIncidenciaDto> result2 = findIncidenciaOp.map(GetIncidenciaDto::of);
+        Optional<GetIncidenciaDto> dto = result.map(GetIncidenciaDto::of);
 
 
-        if (findIncidenciaOp.isEmpty()){
-            throw new IncidenciaNotFoundExcepcion("No se ha encontrado incidencia con ese ID");
+
+        if (result.isEmpty()) {
+            throw new IncidenciaNotFoundExcepcion("No existe ninguna incidencia con ese id");
+        } else {
+            return result.get();
         }
-        return findIncidenciaOp.get();
+
     }
+
 
     @Transactional
     public Incidencia save(EditIncidenciaCmd editInc) {
