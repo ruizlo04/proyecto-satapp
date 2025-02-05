@@ -2,10 +2,7 @@ package com.example.proyecto_satapp_Carlos_Rafa.services;
 
 import com.example.proyecto_satapp_Carlos_Rafa.error.IncidenciaNotFoundExcepcion;
 import com.example.proyecto_satapp_Carlos_Rafa.error.TecnicoNotFoundException;
-import com.example.proyecto_satapp_Carlos_Rafa.models.Alumno;
-import com.example.proyecto_satapp_Carlos_Rafa.models.Incidencia;
-import com.example.proyecto_satapp_Carlos_Rafa.models.Tecnico;
-import com.example.proyecto_satapp_Carlos_Rafa.models.Usuario;
+import com.example.proyecto_satapp_Carlos_Rafa.models.*;
 import com.example.proyecto_satapp_Carlos_Rafa.repositories.IncidenciaRepository;
 import com.example.proyecto_satapp_Carlos_Rafa.repositories.TecnicoRepository;
 import com.example.proyecto_satapp_Carlos_Rafa.util.EditAlumnoCmd;
@@ -15,6 +12,7 @@ import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -40,6 +38,7 @@ public class TecnicoService {
         }
     }
 
+
     public Incidencia gestionarIncidencia(Long incidenciaId, EditIncidenciaCmd incidenciaCmd) {
         Optional<Incidencia> optionalIncidencia = incidenciaRepository.findById(incidenciaId);
 
@@ -50,31 +49,14 @@ public class TecnicoService {
         Incidencia incidencia = optionalIncidencia.get();
         incidencia.setEstado(incidenciaCmd.estado());
 
+        if (incidenciaCmd.estado() == TipoEstado.CERRADA) {
+            incidenciaRepository.delete(incidencia);
+            return null;
+        }
+
         return incidenciaRepository.save(incidencia);
     }
 
-    public Incidencia gestionarIncidencia(Long incidenciaId, Long tecnicoId, EditIncidenciaCmd incidenciaCmd) {
-        Optional<Incidencia> optionalIncidencia = incidenciaRepository.findById(incidenciaId);
-        Optional<Tecnico> optionalTecnico = tecnicoRepository.findById(tecnicoId);
-
-        if (optionalIncidencia.isEmpty()) {
-            throw new IncidenciaNotFoundExcepcion("No hay incidencia con ID: " + incidenciaId);
-        }
-        if (optionalTecnico.isEmpty()) {
-            throw new TecnicoNotFoundException(tecnicoId);
-        }
-
-        Incidencia incidencia = optionalIncidencia.get();
-        Tecnico tecnico = optionalTecnico.get();
-
-        incidencia.setEstado(incidenciaCmd.estado());
-        tecnico.addIncidencia(incidencia);
-
-        incidenciaRepository.save(incidencia);
-        tecnicoRepository.save(tecnico);
-
-        return incidencia;
-    }
 
 
     public Tecnico saveTecnico(EditTecnicoCmd editTecnicoCmd) {

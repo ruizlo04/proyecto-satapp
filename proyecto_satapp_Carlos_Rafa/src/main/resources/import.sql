@@ -19,8 +19,12 @@ VALUES (nextval('equipos_seq'), 'Equipo3', ARRAY['Caracter√≠stica 1', 'Caracter√
 
 INSERT INTO incidencias (id, fecha_incidencia, titulo, descripcion, urgencia, ubicacion_id, estado, equipo_id, usuario_id, categoria_id)
 VALUES (nextval('incidencias_seq'), '2025-01-29 13:10:00' ,'incidencia1', 'esta incidencia es de prueba',true, 1, 'ABIERTA', 1, 1, 1);
+
 INSERT INTO incidencias (id, fecha_incidencia, titulo, descripcion, urgencia, ubicacion_id, estado, equipo_id, usuario_id)
 VALUES (nextval('incidencias_seq'), '2025-01-29 13:10:00' ,'incidencia2', 'esta incidencia es de prueba',true, 1, 'ABIERTA', 51, 151);
+
+INSERT INTO notas(id, fecha, contenido, autor, incidencia_id) VALUES (nextval('notas_seq'), '2025-02-05', 'Esto es una nota', 'Yo', 1);
+
 
 INSERT INTO alumno (id) VALUES (1);
 INSERT INTO alumno (id) VALUES (151);
@@ -35,4 +39,5 @@ INSERT INTO historico_cursos (id, curso_escolar, curso, alumno_id) VALUES (nextv
 
 INSERT INTO tecnico_incidencia (tecnico_id, incidencia_id)
 VALUES (51, 1);
+
 
