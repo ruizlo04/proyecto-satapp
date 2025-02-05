@@ -13,6 +13,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -55,14 +56,14 @@ public class UbicacionController {
             @ApiResponse(responseCode = "200",
                     description = "Se ha encontrado la ubicacion",
                     content = { @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = Ubicacion.class))}),
+                            schema = @Schema(implementation = GetUbicacionDto.class))}),
             @ApiResponse(responseCode = "404",
                     description = "No se ha encontrado la ubicacion con el ID proporcionado",
                     content = @Content)
     })
     @GetMapping("/{id}")
-    public ResponseEntity<Ubicacion> getById(@PathVariable Long id) {
-        return ResponseEntity.of(ubicacionService.findById(id));
+    public GetUbicacionDto getById(@PathVariable Long id) {
+        return GetUbicacionDto.of(ubicacionService.findById(id));
     }
 
     @Operation(summary = "Obtiene una ubicacion por su nombre")
@@ -76,11 +77,34 @@ public class UbicacionController {
                     content = @Content)
     })
     @GetMapping("/nombre/{nombre}")
-    public ResponseEntity<Optional<Ubicacion>> getByNombre(@PathVariable String nombre) {
-        Optional<Ubicacion> ubicacion = ubicacionService.findByNombre(nombre);
-        return ResponseEntity.ok(ubicacion);
+    public GetUbicacionDto getByNombre(@PathVariable String nombre) {
+        return GetUbicacionDto.of(ubicacionService.findByNombre(nombre));
     }
 
+    @Operation(summary = "Crea una nueva ubicación")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201",
+                    description = "Ubicación creada con éxito",
+                    content = { @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = GetUbicacionDto.class))}),
+            @ApiResponse(responseCode = "400",
+                    description = "Datos inválidos para crear la ubicación",
+                    content = @Content)
+    })
+    @PostMapping("/")
+    public ResponseEntity<GetUbicacionDto> create(@RequestBody GetUbicacionDto nuevo) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(GetUbicacionDto.of(ubicacionService.createUbicacion(nuevo)));
+    }
+
+    @Operation(summary = "Elimina una ubicación por su ID")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204",
+                    description = "Ubicación eliminada con éxito",
+                    content = @Content),
+            @ApiResponse(responseCode = "404",
+                    description = "No se ha encontrado la ubicación con el ID proporcionado",
+                    content = @Content)
+    })
     @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(@PathVariable Long id) {
         ubicacionService.deleteById(id);

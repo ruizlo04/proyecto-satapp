@@ -7,6 +7,7 @@ import com.example.proyecto_satapp_Carlos_Rafa.models.Ubicacion;
 import com.example.proyecto_satapp_Carlos_Rafa.repositories.EquipoRepository;
 import com.example.proyecto_satapp_Carlos_Rafa.repositories.IncidenciaRepository;
 import com.example.proyecto_satapp_Carlos_Rafa.repositories.UbicacionRepository;
+import com.example.proyecto_satapp_Carlos_Rafa.util.GetUbicacionDto;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -29,18 +30,25 @@ public class UbicacionService {
         return results;
     }
 
-    public Optional <Ubicacion> findById(Long id){
+    public Ubicacion findById(Long id){
         Optional <Ubicacion> resultsOp = ubicacionRepository.findById(id);
         if (resultsOp.isEmpty())
             throw new UbicacionNotFoundExcepcion("No se han encontrado ubicaciones con es id");
-        return resultsOp;
+        return resultsOp.get();
     }
 
-    public Optional <Ubicacion> findByNombre(String nombre){
+    public Ubicacion findByNombre(String nombre){
         Optional <Ubicacion> resultsOp = ubicacionRepository.getUbicacionByNombre(nombre);
         if (resultsOp.isEmpty())
             throw new UbicacionNotFoundExcepcion("No se han encontrado ubicaciones con ese nombre");
-        return resultsOp;
+        return resultsOp.get();
+    }
+
+    public Ubicacion createUbicacion(GetUbicacionDto getUbicacionDto){
+
+        return ubicacionRepository.save(Ubicacion.builder()
+                .nombre(getUbicacionDto.nombre())
+                .build());
     }
 
     public void deleteById(Long id) {

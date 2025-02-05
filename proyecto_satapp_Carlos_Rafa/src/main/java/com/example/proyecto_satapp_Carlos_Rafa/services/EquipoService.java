@@ -40,19 +40,19 @@ public class EquipoService {
     }
 
     public Equipo save(EditEquipoCmd editEquipo){
-        Optional<Ubicacion> ubicacion = ubicacionService.findById(editEquipo.ubicacionId());
+        Ubicacion ubicacion = ubicacionService.findById(editEquipo.ubicacionId());
 
         return equipoRepository.save(Equipo.builder()
                 .nombre(editEquipo.nombre())
                 .caracteristicas(editEquipo.caracteristicas())
-                .ubicacion(ubicacion.get())
+                .ubicacion(ubicacion)
                 .build());
     }
 
     public Equipo editEquipo(Long id, EditEquipoCmd editEquipo) {
 
         Optional<Equipo> equipoOptional = equipoRepository.findById(id);
-        Optional<Ubicacion> ubicacionOptional = ubicacionService.findById(editEquipo.ubicacionId());
+        Ubicacion ubicacion = ubicacionService.findById(editEquipo.ubicacionId());
 
         if (equipoOptional.isEmpty()) {
             throw new EquipoNotFoundExcepcion("No existe el equipo con ese id");
@@ -61,7 +61,7 @@ public class EquipoService {
         Equipo equipo = equipoOptional.get();
         equipo.setNombre(editEquipo.nombre());
         equipo.setCaracteristicas(editEquipo.caracteristicas());
-        equipo.setUbicacion(ubicacionOptional.get());
+        equipo.setUbicacion(ubicacion);
 
         return equipoRepository.save(equipo);
     }
