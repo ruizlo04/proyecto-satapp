@@ -51,7 +51,7 @@ public class IncidenciaController {
     })
     @GetMapping("/")
     public  List<GetIncidenciaDto> getAll() {
-        return incidenciaService.findAll().stream().map(GetIncidenciaDto::of).toList();
+        return incidenciaService.findAll();
     }
 
 

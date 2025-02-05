@@ -1,9 +1,6 @@
 package com.example.proyecto_satapp_Carlos_Rafa.controllers;
 
-import com.example.proyecto_satapp_Carlos_Rafa.models.Alumno;
-import com.example.proyecto_satapp_Carlos_Rafa.models.Incidencia;
-import com.example.proyecto_satapp_Carlos_Rafa.models.Personal;
-import com.example.proyecto_satapp_Carlos_Rafa.models.Tecnico;
+import com.example.proyecto_satapp_Carlos_Rafa.models.*;
 import com.example.proyecto_satapp_Carlos_Rafa.services.IncidenciaService;
 import com.example.proyecto_satapp_Carlos_Rafa.services.TecnicoService;
 import com.example.proyecto_satapp_Carlos_Rafa.util.*;
@@ -88,12 +85,13 @@ public class TecnicoController {
                     description = "Error en los datos proporcionados",
                     content = @Content)
     })
-    @PutMapping("/incidencias/{incidenciaId}")
-    public ResponseEntity<Incidencia> gestionarIncidencia(
-            @PathVariable Long incidenciaId,
-            @RequestBody EditIncidenciaCmd incidenciaCmd) {
+    @PutMapping("/gestionar-incidencia/{id}")
+    public ResponseEntity<?> gestionarIncidencia(@PathVariable Long id, @RequestBody EditIncidenciaCmd incidenciaCmd) {
+        Incidencia incidencia = tecnicoService.gestionarIncidencia(id, incidenciaCmd);
 
-        Incidencia incidencia = tecnicoService.gestionarIncidencia(incidenciaId, incidenciaCmd);
+        if (incidencia == null) {
+            return ResponseEntity.noContent().build();
+        }
 
         return ResponseEntity.ok(incidencia);
     }
