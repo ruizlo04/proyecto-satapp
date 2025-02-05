@@ -80,11 +80,24 @@ public class PersonalController {
                     content = @Content)
     })
     @PostMapping("/nuevo")
-    public GetPersonalDto savePersonal(@RequestBody EditPersonalCmd personalNuevo) {
+    public GetPersonalDto savePersonal(@io.swagger.v3.oas.annotations.parameters.RequestBody(
+            description = "Cuerpo del tecnico", required = true,
+            content = @Content(mediaType = "application/json",
+                    schema = @Schema(implementation= GetPersonalDto.class),
+                    examples = @ExampleObject(value = """
+                            {
+                                "id": 101,
+                                "username": "User1234",
+                                "password": null,
+                                "email": null,
+                                "role": null,
+                                "tipo": "PROFESOR"
+                            }
+                            
+                            """)))@RequestBody EditPersonalCmd personalNuevo) {
         Personal personal =  personalService.savePersonal(personalNuevo);
         return GetPersonalDto.of(personal);
     }
-
 
     @Operation(summary = "Edita un personal por su ID")
     @ApiResponses(value = {
