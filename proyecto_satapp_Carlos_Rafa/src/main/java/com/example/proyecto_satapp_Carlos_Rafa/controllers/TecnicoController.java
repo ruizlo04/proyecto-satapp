@@ -1,6 +1,9 @@
 package com.example.proyecto_satapp_Carlos_Rafa.controllers;
 
-import com.example.proyecto_satapp_Carlos_Rafa.models.*;
+import com.example.proyecto_satapp_Carlos_Rafa.models.Alumno;
+import com.example.proyecto_satapp_Carlos_Rafa.models.Equipo;
+import com.example.proyecto_satapp_Carlos_Rafa.models.Incidencia;
+import com.example.proyecto_satapp_Carlos_Rafa.models.Tecnico;
 import com.example.proyecto_satapp_Carlos_Rafa.services.IncidenciaService;
 import com.example.proyecto_satapp_Carlos_Rafa.services.TecnicoService;
 import com.example.proyecto_satapp_Carlos_Rafa.util.*;
@@ -12,9 +15,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -51,8 +52,7 @@ public class TecnicoController {
 
     @GetMapping("/")
     public List<GetTecnicoDto> getAll(){
-        return tecnicoService.findAll().stream().map(GetTecnicoDto::of).toList();
-
+        return tecnicoService.findAll();
     }
 
     @Operation(summary = "Obtiene un tecnico por su ID")
@@ -107,7 +107,21 @@ public class TecnicoController {
                     content = @Content)
     })
     @PostMapping("/nuevo")
-    public GetTecnicoDto saveTecnico(@RequestBody EditTecnicoCmd tecnicoNuevo) {
+    public GetTecnicoDto saveTecnico(@io.swagger.v3.oas.annotations.parameters.RequestBody(
+            description = "Cuerpo del tecnico", required = true,
+            content = @Content(mediaType = "application/json",
+            schema = @Schema(implementation= GetTecnicoDto.class),
+                    examples = @ExampleObject(value = """
+                            {
+                                "id": 51,
+                                "username": "SoyYo",
+                                "password": null,
+                                "email": null,
+                                "role": null,
+                                "incidencias": []
+                            }
+                            
+                            """)))@RequestBody EditTecnicoCmd tecnicoNuevo) {
         Tecnico tecnico =  tecnicoService.saveTecnico(tecnicoNuevo);
         return GetTecnicoDto.of(tecnico);
     }
@@ -122,9 +136,23 @@ public class TecnicoController {
                     description = "No se encontró el tecnico con el ID proporcionado",
                     content = @Content)
     })
+
     @PutMapping("/{id}")
-    public Tecnico edit(@RequestBody EditTecnicoCmd aEditar,
-                         @PathVariable Long id) {
+    public Tecnico edit(@io.swagger.v3.oas.annotations.parameters.RequestBody(
+            description = "Cuerpo del equipo", required = true,
+            content = @Content(mediaType = "application/json",
+                    schema = @Schema(implementation = EditTecnicoCmd.class),
+                    examples = @ExampleObject(value = """
+                                {
+                                            "id": 51,
+                                            "username": "User12345",
+                                            "password": null,
+                                            "email": null,
+                                            "role": null,
+                                            "incidencias": []
+                                        }
+                    """)))@RequestBody EditTecnicoCmd aEditar,
+                        @PathVariable Long id) {
         return tecnicoService.edit(aEditar, id);
     }
 

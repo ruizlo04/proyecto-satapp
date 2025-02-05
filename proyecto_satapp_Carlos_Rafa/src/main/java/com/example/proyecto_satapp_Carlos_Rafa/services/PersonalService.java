@@ -8,6 +8,7 @@ import com.example.proyecto_satapp_Carlos_Rafa.repositories.PersonalRepository;
 import com.example.proyecto_satapp_Carlos_Rafa.util.EditAlumnoCmd;
 import com.example.proyecto_satapp_Carlos_Rafa.util.EditPersonalCmd;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +20,7 @@ import java.util.Optional;
 public class PersonalService {
     private final PersonalRepository personalRepository;
 
+    @Transactional
     public List<Personal> findAll(){
         List<Personal> result = personalRepository.findAll();
         if(result.isEmpty())
@@ -26,6 +28,7 @@ public class PersonalService {
         return result;
     }
 
+    @Transactional
     public Personal findById(Long id) {
         Optional<Personal> result = personalRepository.findById(id);
         if(result.isEmpty())
@@ -35,6 +38,7 @@ public class PersonalService {
         }
     }
 
+    @Transactional
     public Personal savePersonal(EditPersonalCmd editPersonalCmd) {
         return personalRepository.save(Personal.builder()
                 .email(editPersonalCmd.email())
@@ -45,6 +49,7 @@ public class PersonalService {
                 .build());
     }
 
+    @Transactional
     public Personal edit(EditPersonalCmd editPersonalCmd, Long id) {
         Optional<Personal> optionalPersonal = personalRepository.findById(id);
 
@@ -63,6 +68,7 @@ public class PersonalService {
     }
 
 
+    @Transactional
     public void deleteById(Long id) {
         Optional<Personal> personalOp = personalRepository.findById(id);
 

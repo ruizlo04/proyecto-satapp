@@ -2,11 +2,9 @@ package com.example.proyecto_satapp_Carlos_Rafa.controllers;
 
 import com.example.proyecto_satapp_Carlos_Rafa.models.Incidencia;
 import com.example.proyecto_satapp_Carlos_Rafa.models.Usuario;
+import com.example.proyecto_satapp_Carlos_Rafa.services.IncidenciaService;
 import com.example.proyecto_satapp_Carlos_Rafa.services.UsuarioService;
-import com.example.proyecto_satapp_Carlos_Rafa.util.EditIncidenciaCmd;
-import com.example.proyecto_satapp_Carlos_Rafa.util.EditUsuarioCmd;
-import com.example.proyecto_satapp_Carlos_Rafa.util.GetIncidenciaDto;
-import com.example.proyecto_satapp_Carlos_Rafa.util.GetUsuarioDto;
+import com.example.proyecto_satapp_Carlos_Rafa.util.*;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -29,6 +27,7 @@ import java.util.List;
 public class UsuarioController {
 
     private final UsuarioService usuarioService;
+    private final IncidenciaService incidenciaService;
 
     @Operation(summary = "Obtiene todas los usuario")
     @ApiResponses(value = {
@@ -38,10 +37,13 @@ public class UsuarioController {
                             array = @ArraySchema(schema = @Schema(implementation = GetUsuarioDto.class)),
                             examples = {@ExampleObject(
                                     value = """
-                                            {
-                                                "id": 1,
-                                                "username": "Rafahm03"
-                                            }
+                                             {
+                                                    "id": 1,
+                                                    "username": "RuizloCar",
+                                                    "password": null,
+                                                    "email": null,
+                                                    "role": null
+                                                }
                                             """
                             )}
                     )}),
@@ -81,11 +83,13 @@ public class UsuarioController {
                             schema = @Schema(implementation = GetIncidenciaDto.class),
                             examples = {@ExampleObject(
                                     value = """
-                                        {
-                                            "id": 10,
-                                            "descripcion": "Error en la aplicación",
-                                            "estado": "Abierta"
-                                        }
+                                             {
+                                                    "id": 1,
+                                                    "username": "RuizloCar",
+                                                    "password": null,
+                                                    "email": null,
+                                                    "role": null
+                                                }
                                         """
                             )}
                     )}),
@@ -94,8 +98,46 @@ public class UsuarioController {
                     content = @Content)
     })
 
+
+    @PostMapping("/{id}/notas")
+    public ResponseEntity<GetIncidenciaDto> addNotaToIncidencia(@io.swagger.v3.oas.annotations.parameters.RequestBody(
+            description = "Cuerpo de la incidencia", required = true,
+            content = @Content(mediaType = "application/json",
+                    schema = @Schema(implementation = EditIncidenciaCmd.class),
+                    examples = @ExampleObject(value = """
+                                {
+                                          "fecha": "2025-02-05",
+                                          "contenido": "string",
+                                          "autor": "string",
+                                          "incidenciaId": 0
+                                }
+                    """)))@PathVariable Long id, @RequestBody EditNotaCmd nota) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(GetIncidenciaDto.of(incidenciaService.addNotaToIncidencia(id, nota)));
+    }
+
     @PostMapping("/{usuarioId}/incidencias")
-    public ResponseEntity<GetIncidenciaDto> abrirIncidencia(@PathVariable Long usuarioId, @RequestBody EditIncidenciaCmd incidenciaCmd) {
+    public ResponseEntity<GetIncidenciaDto> abrirIncidencia(@io.swagger.v3.oas.annotations.parameters.RequestBody(
+            description = "Abrir una incidencia como usuario", required = true,
+            content = @Content(mediaType = "application/json",
+            schema = @Schema(implementation = EditIncidenciaCmd.class),
+            examples = @ExampleObject(value = """
+                    {
+                        "fechaIncidencia": null,
+                        "titulo": "incidencia2",
+                        "descripcion": "esta incidencia es de prueba",
+                        "urgencia": true,
+                        "estado": "ABIERTA",
+                        "notas": [],
+                        "usuario": {
+                            "id": 1,
+                            "username": "RuizloCar",
+                            "password": null,
+                            "email": null,
+                            "role": null
+                        },
+                        "tecnicos": []
+                    }
+                    """)))@PathVariable Long usuarioId, @RequestBody EditIncidenciaCmd incidenciaCmd) {
         return ResponseEntity.status(HttpStatus.CREATED).body(GetIncidenciaDto.of(usuarioService.abrirIncidencia(usuarioId, incidenciaCmd)));
     }
 
@@ -111,9 +153,21 @@ public class UsuarioController {
     })
 
     @PutMapping("/{id}")
-    public Usuario edit(@RequestBody EditUsuarioCmd aEditar,
-                         @PathVariable Long id) {
-        return usuarioService.edit(aEditar, id);
+    public ResponseEntity<Usuario> edit(@io.swagger.v3.oas.annotations.parameters.RequestBody(
+            description = "Cuerpo del usuario a editar", required = true,
+            content = @Content(mediaType = "application/json",
+                    schema = @Schema(implementation = EditUsuarioCmd.class),
+                    examples = @ExampleObject(value = """
+                                {
+                                                    "id": 1,
+                                                    "username": "RuizloCar",
+                                                    "password": null,
+                                                    "email": null,
+                                                    "role": null
+                                                }
+                    """)))
+                                        @RequestBody EditUsuarioCmd aEditar, @PathVariable Long id) {
+        return ResponseEntity.ok(usuarioService.edit(aEditar, id));
     }
 
     @Operation(summary = "Crea un nuevo usuario")
@@ -124,11 +178,13 @@ public class UsuarioController {
                             schema = @Schema(implementation = Usuario.class),
                             examples = {@ExampleObject(
                                     value = """
-                                        {
-                                            "id": 1,
-                                            "username": "NuevoUsuario",
-                                            "email": "usuario@example.com"
-                                        }
+                                             {
+                                                    "id": 1,
+                                                    "username": "RuizloCar",
+                                                    "password": null,
+                                                    "email": null,
+                                                    "role": null
+                                                }
                                         """
                             )}
                     )}),
@@ -138,10 +194,20 @@ public class UsuarioController {
     })
 
     @PostMapping("/nuevo")
-    public ResponseEntity<Usuario> create(@RequestBody EditUsuarioCmd nuevo) {
+    public ResponseEntity<Usuario> create(@io.swagger.v3.oas.annotations.parameters.RequestBody(
+            description = "Cuerpo del usuario", required = true,
+            content = @Content(mediaType = "application/json",
+                    schema = @Schema(implementation = EditUsuarioCmd.class),
+                    examples = @ExampleObject(value = """
+                                {
+                                    "username": "NuevoUsuario",
+                                    "email": "usuario@example.com",
+                                    "password": "contraseñaSegura"
+                                }
+                    """)))
+                                          @RequestBody EditUsuarioCmd nuevo) {
         return ResponseEntity.status(HttpStatus.CREATED)
-                .body(
-                        usuarioService.save(nuevo));
+                .body(usuarioService.save(nuevo));
     }
 
 
