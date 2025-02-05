@@ -63,6 +63,11 @@ public class Incidencia {
     )
     private List<Nota> notas = new ArrayList<>();
 
+    @ManyToOne
+    @JoinColumn(name = "categoria_id",
+            foreignKey = @ForeignKey(name = "fk_incidencia_categoria"))
+    private Categoria categoria;
+
     public void addNota(Nota n) {
         n.setIncidencia(this);
         this.notas.add(n);
