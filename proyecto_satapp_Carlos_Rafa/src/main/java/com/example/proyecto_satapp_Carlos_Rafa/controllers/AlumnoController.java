@@ -81,7 +81,24 @@ public class AlumnoController {
                     content = @Content)
     })
     @PostMapping("/nuevo")
-    public GetAlumnoDto saveAlumno(@RequestBody EditAlumnoCmd alumnoNuevo) {
+    public GetAlumnoDto saveAlumno(@io.swagger.v3.oas.annotations.parameters.RequestBody(
+            description = "Cuerpo del alumno", required = true,
+            content = @Content(mediaType = "application/json",
+                    schema = @Schema(implementation = EditAlumnoCmd.class),
+                    examples = @ExampleObject(value = """
+                                {
+                                    "nombre": "alumno1",
+                                    "password": "contraseña1",
+                                    "email": "alumno@alumno",
+                                    "role": "Alumno",
+                                    "historicoCursos": "[
+                                                         {
+                                                          "cursoEscolar": "string",
+                                                          "curso": "string"
+                                                         }
+                                                        ]
+                                }
+                    """)))@RequestBody EditAlumnoCmd alumnoNuevo) {
         Alumno alumno = alumnoService.saveAlumno(alumnoNuevo);
         return GetAlumnoDto.of(alumno);
     }

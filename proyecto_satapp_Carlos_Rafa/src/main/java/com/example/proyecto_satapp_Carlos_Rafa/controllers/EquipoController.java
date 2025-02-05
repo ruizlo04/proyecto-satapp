@@ -4,6 +4,7 @@ import com.example.proyecto_satapp_Carlos_Rafa.models.Equipo;
 import com.example.proyecto_satapp_Carlos_Rafa.services.EquipoService;
 import com.example.proyecto_satapp_Carlos_Rafa.util.EditEquipoCmd;
 import com.example.proyecto_satapp_Carlos_Rafa.util.GetEquipoDto;
+import com.example.proyecto_satapp_Carlos_Rafa.util.GetUbicacionDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -77,7 +78,19 @@ public class EquipoController {
                     content = @Content)
     })
     @PostMapping("/")
-    public ResponseEntity<GetEquipoDto> create(@RequestBody EditEquipoCmd nuevo) {
+    public ResponseEntity<GetEquipoDto> create(@io.swagger.v3.oas.annotations.parameters.RequestBody(
+            description = "Cuerpo del equipo", required = true,
+            content = @Content(mediaType = "application/json",
+                    schema = @Schema(implementation = EditEquipoCmd.class),
+                    examples = @ExampleObject(value = """
+                                {
+                                    "nombre": "Equipo1",
+                                    "caracteristicas": [
+                                                "string"
+                                              ],
+                                    "ubicacionId": 1
+                                }
+                    """)))@RequestBody EditEquipoCmd nuevo) {
         return ResponseEntity.status(HttpStatus.CREATED).body(GetEquipoDto.of(equipoService.save(nuevo)));
     }
 
@@ -95,7 +108,19 @@ public class EquipoController {
                     content = @Content)
     })
     @PutMapping("/{id}")
-    public Equipo edit(@RequestBody EditEquipoCmd aEditar,
+    public Equipo edit(@io.swagger.v3.oas.annotations.parameters.RequestBody(
+            description = "Cuerpo del equipo", required = true,
+            content = @Content(mediaType = "application/json",
+                    schema = @Schema(implementation = EditEquipoCmd.class),
+                    examples = @ExampleObject(value = """
+                                {
+                                    "nombre": "Equipo1",
+                                    "caracteristicas": [
+                                                "string"
+                                              ],
+                                    "ubicacionId": 1
+                                }
+                    """)))@RequestBody EditEquipoCmd aEditar,
                        @PathVariable Long id) {
         return equipoService.editEquipo(id, aEditar);
     }
