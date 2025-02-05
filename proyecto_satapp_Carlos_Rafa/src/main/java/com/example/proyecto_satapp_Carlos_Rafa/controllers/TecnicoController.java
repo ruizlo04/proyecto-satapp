@@ -1,9 +1,13 @@
 package com.example.proyecto_satapp_Carlos_Rafa.controllers;
 
-import com.example.proyecto_satapp_Carlos_Rafa.models.*;
+import com.example.proyecto_satapp_Carlos_Rafa.models.Incidencia;
+import com.example.proyecto_satapp_Carlos_Rafa.models.Tecnico;
 import com.example.proyecto_satapp_Carlos_Rafa.services.IncidenciaService;
 import com.example.proyecto_satapp_Carlos_Rafa.services.TecnicoService;
-import com.example.proyecto_satapp_Carlos_Rafa.util.*;
+import com.example.proyecto_satapp_Carlos_Rafa.util.EditIncidenciaCmd;
+import com.example.proyecto_satapp_Carlos_Rafa.util.EditTecnicoCmd;
+import com.example.proyecto_satapp_Carlos_Rafa.util.GetIncidenciaDto;
+import com.example.proyecto_satapp_Carlos_Rafa.util.GetTecnicoDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -12,9 +16,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -51,8 +53,7 @@ public class TecnicoController {
 
     @GetMapping("/")
     public List<GetTecnicoDto> getAll(){
-        return tecnicoService.findAll().stream().map(GetTecnicoDto::of).toList();
-
+        return tecnicoService.findAll();
     }
 
     @Operation(summary = "Obtiene un tecnico por su ID")
@@ -124,7 +125,7 @@ public class TecnicoController {
     })
     @PutMapping("/{id}")
     public Tecnico edit(@RequestBody EditTecnicoCmd aEditar,
-                         @PathVariable Long id) {
+                        @PathVariable Long id) {
         return tecnicoService.edit(aEditar, id);
     }
 

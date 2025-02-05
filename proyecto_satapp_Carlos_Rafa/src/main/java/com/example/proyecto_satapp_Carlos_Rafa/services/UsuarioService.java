@@ -12,6 +12,7 @@ import com.example.proyecto_satapp_Carlos_Rafa.util.EditIncidenciaCmd;
 import com.example.proyecto_satapp_Carlos_Rafa.util.EditUsuarioCmd;
 import com.example.proyecto_satapp_Carlos_Rafa.util.GetIncidenciaDto;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -24,6 +25,7 @@ public class UsuarioService {
     private final UsuarioRepository usuarioRepository;
     private final IncidenciaRepository incidenciaRepository;
 
+    @Transactional
     public List<Usuario> findAll(){
         List<Usuario> result = usuarioRepository.findAll();
         if(result.isEmpty())
@@ -31,6 +33,7 @@ public class UsuarioService {
         return result;
     }
 
+    @Transactional
     public Usuario findById(Long id) {
         Optional<Usuario> result = usuarioRepository.findById(id);
         if(result.isEmpty())
@@ -40,6 +43,7 @@ public class UsuarioService {
         }
     }
 
+    @Transactional
     public Incidencia abrirIncidencia(Long usuarioId, EditIncidenciaCmd incidenciaCmd) {
 
         Optional<Usuario> optionalUsuario = usuarioRepository.findById(usuarioId);
@@ -66,6 +70,7 @@ public class UsuarioService {
         return incidencia;
     }
 
+    @Transactional
     public Usuario save(EditUsuarioCmd nuevo) {
         return usuarioRepository.save(Usuario.builder()
                 .username(nuevo.username())
@@ -75,6 +80,7 @@ public class UsuarioService {
                 .build());
     }
 
+    @Transactional
     public Usuario edit(EditUsuarioCmd editUsuarioCmd, Long id) {
         Optional<Usuario> optionalUsuario = usuarioRepository.findById(id);
 

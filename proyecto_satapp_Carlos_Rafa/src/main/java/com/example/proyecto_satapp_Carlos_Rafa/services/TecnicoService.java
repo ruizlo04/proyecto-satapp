@@ -5,10 +5,9 @@ import com.example.proyecto_satapp_Carlos_Rafa.error.TecnicoNotFoundException;
 import com.example.proyecto_satapp_Carlos_Rafa.models.*;
 import com.example.proyecto_satapp_Carlos_Rafa.repositories.IncidenciaRepository;
 import com.example.proyecto_satapp_Carlos_Rafa.repositories.TecnicoRepository;
-import com.example.proyecto_satapp_Carlos_Rafa.util.EditAlumnoCmd;
-import com.example.proyecto_satapp_Carlos_Rafa.util.EditIncidenciaCmd;
-import com.example.proyecto_satapp_Carlos_Rafa.util.EditTecnicoCmd;
+import com.example.proyecto_satapp_Carlos_Rafa.util.*;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -22,15 +21,21 @@ public class TecnicoService {
     private final TecnicoRepository tecnicoRepository;
     private final IncidenciaRepository incidenciaRepository;
 
-    public List<Tecnico> findAll(){
+    @Transactional
+    public List<GetTecnicoDto> findAll(){
         List<Tecnico> result = tecnicoRepository.findAll();
-        if(result.isEmpty())
+        List<GetTecnicoDto> dtos = result.stream().map(GetTecnicoDto::of).toList();
+        if(dtos.isEmpty())
             throw new TecnicoNotFoundException("No hay tecnicos con esos criterios de busqueda");
-        return result;
+        return dtos;
     }
 
+
+    @Transactional
     public Tecnico findById(Long id) {
         Optional<Tecnico> result = tecnicoRepository.findById(id);
+
+        Optional<GetTecnicoDto> dto = result.map(GetTecnicoDto::of);
         if(result.isEmpty())
             throw new TecnicoNotFoundException("No se encontró técnico con ese id");
         else {
@@ -39,6 +44,7 @@ public class TecnicoService {
     }
 
 
+    @Transactional
     public Incidencia gestionarIncidencia(Long incidenciaId, EditIncidenciaCmd incidenciaCmd) {
         Optional<Incidencia> optionalIncidencia = incidenciaRepository.findById(incidenciaId);
 
@@ -58,7 +64,7 @@ public class TecnicoService {
     }
 
 
-
+    @Transactional
     public Tecnico saveTecnico(EditTecnicoCmd editTecnicoCmd) {
         return tecnicoRepository.save(Tecnico.builder()
                 .email(editTecnicoCmd.email())
@@ -68,7 +74,7 @@ public class TecnicoService {
                 .build());
     }
 
-
+    @Transactional
     public Tecnico edit(EditTecnicoCmd editTecnicoCmd, Long id) {
         Optional<Tecnico> optionalTecnico = tecnicoRepository.findById(id);
 
@@ -85,7 +91,7 @@ public class TecnicoService {
         return tecnicoRepository.save(tecnico);
     }
 
-
+    @Transactional
     public void deleteById(Long id) {
         Optional<Tecnico> tecnicoOp = tecnicoRepository.findById(id);
 
