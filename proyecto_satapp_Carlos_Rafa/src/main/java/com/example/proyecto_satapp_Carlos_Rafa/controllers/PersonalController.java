@@ -3,6 +3,7 @@ package com.example.proyecto_satapp_Carlos_Rafa.controllers;
 import com.example.proyecto_satapp_Carlos_Rafa.models.Alumno;
 import com.example.proyecto_satapp_Carlos_Rafa.models.Personal;
 import com.example.proyecto_satapp_Carlos_Rafa.models.Tecnico;
+import com.example.proyecto_satapp_Carlos_Rafa.models.Usuario;
 import com.example.proyecto_satapp_Carlos_Rafa.services.PersonalService;
 import com.example.proyecto_satapp_Carlos_Rafa.util.*;
 import io.swagger.v3.oas.annotations.Operation;
@@ -31,7 +32,7 @@ public class PersonalController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200",
                     description = "Se han encontrado los personal",
-                    content = { @Content(mediaType = "application/json",
+                    content = {@Content(mediaType = "application/json",
                             array = @ArraySchema(schema = @Schema(implementation = GetPersonalDto.class)),
                             examples = {@ExampleObject(
                                     value = """
@@ -48,7 +49,7 @@ public class PersonalController {
     })
 
     @GetMapping("/")
-    public List<GetPersonalDto> getAll(){
+    public List<GetPersonalDto> getAll() {
         return personalService.findAll().stream().map(GetPersonalDto::of).toList();
 
     }
@@ -57,7 +58,7 @@ public class PersonalController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200",
                     description = "Se ha encontrado el personal",
-                    content = { @Content(mediaType = "application/json",
+                    content = {@Content(mediaType = "application/json",
                             schema = @Schema(implementation = GetPersonalDto.class))}),
             @ApiResponse(responseCode = "404",
                     description = "No se ha encontrado el personal con el ID proporcionado",
@@ -65,7 +66,7 @@ public class PersonalController {
     })
 
     @GetMapping("/{id}")
-    public GetPersonalDto getById(@PathVariable Long id){
+    public GetPersonalDto getById(@PathVariable Long id) {
         return GetPersonalDto.of(personalService.findById(id));
     }
 
@@ -73,7 +74,7 @@ public class PersonalController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201",
                     description = "Personal creado exitosamente",
-                    content = { @Content(mediaType = "application/json",
+                    content = {@Content(mediaType = "application/json",
                             schema = @Schema(implementation = GetPersonalDto.class))}),
             @ApiResponse(responseCode = "400",
                     description = "Error en los datos proporcionados",
@@ -83,7 +84,7 @@ public class PersonalController {
     public GetPersonalDto savePersonal(@io.swagger.v3.oas.annotations.parameters.RequestBody(
             description = "Cuerpo del tecnico", required = true,
             content = @Content(mediaType = "application/json",
-                    schema = @Schema(implementation= GetPersonalDto.class),
+                    schema = @Schema(implementation = GetPersonalDto.class),
                     examples = @ExampleObject(value = """
                             {
                                 "id": 101,
@@ -94,8 +95,8 @@ public class PersonalController {
                                 "tipo": "PROFESOR"
                             }
                             
-                            """)))@RequestBody EditPersonalCmd personalNuevo) {
-        Personal personal =  personalService.savePersonal(personalNuevo);
+                            """))) @RequestBody EditPersonalCmd personalNuevo) {
+        Personal personal = personalService.savePersonal(personalNuevo);
         return GetPersonalDto.of(personal);
     }
 
@@ -103,16 +104,31 @@ public class PersonalController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200",
                     description = "Personal editado exitosamente",
-                    content = { @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = Personal.class))}),
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema(implementation = EditPersonalCmd.class))}),
             @ApiResponse(responseCode = "404",
                     description = "No se encontró el personal con el ID proporcionado",
                     content = @Content)
     })
+
     @PutMapping("/{id}")
-    public Personal edit(@RequestBody EditPersonalCmd aEditar,
-                       @PathVariable Long id) {
-        return personalService.edit(aEditar, id);
+    public ResponseEntity<GetPersonalDto> edit(@io.swagger.v3.oas.annotations.parameters.RequestBody(
+            description = "Cuerpo del personal a editar", required = true,
+            content = @Content(mediaType = "application/json",
+                    schema = @Schema(implementation = EditPersonalCmd.class),
+                    examples = @ExampleObject(value = """
+                                        {
+                                                        "id": 101,
+                                                        "username": "User1234",
+                                                        "password": null,
+                                                        "email": "email@email",
+                                                        "role": null,
+                                                        "tipo": "PROFESOR"
+                                                    }
+                            """))) @RequestBody EditPersonalCmd aEditar,
+                                               @PathVariable Long id) {
+        return ResponseEntity.ok(GetPersonalDto.of(personalService.edit(aEditar, id)));
+
     }
 
 
