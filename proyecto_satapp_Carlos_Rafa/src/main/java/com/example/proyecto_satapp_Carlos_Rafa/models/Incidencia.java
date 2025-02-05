@@ -37,7 +37,7 @@ public class Incidencia {
                 foreignKey = @ForeignKey(name = "fk_incidencia_usuario"))
     private Usuario usuario;
 
-    @ManyToMany(mappedBy = "incidenciasAsignadas", fetch = FetchType.LAZY)
+    @ManyToMany(mappedBy = "incidenciasAsignadas", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @Builder.Default
     @Setter(AccessLevel.NONE)
     @ToString.Exclude

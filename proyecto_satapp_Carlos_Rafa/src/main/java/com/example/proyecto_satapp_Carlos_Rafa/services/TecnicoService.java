@@ -39,7 +39,7 @@ public class TecnicoService {
     }
 
 
-    public Incidencia gestionarIncidencia(Long incidenciaId,  EditIncidenciaCmd incidenciaCmd) {
+    public Incidencia gestionarIncidencia(Long incidenciaId, EditIncidenciaCmd incidenciaCmd) {
         Optional<Incidencia> optionalIncidencia = incidenciaRepository.findById(incidenciaId);
 
         if (optionalIncidencia.isEmpty()) {
@@ -47,17 +47,16 @@ public class TecnicoService {
         }
 
         Incidencia incidencia = optionalIncidencia.get();
-
         incidencia.setEstado(incidenciaCmd.estado());
-
-        incidenciaRepository.save(incidencia);
 
         if (incidenciaCmd.estado() == TipoEstado.CERRADA) {
             incidenciaRepository.delete(incidencia);
+            return null;
         }
 
-        return incidencia;
+        return incidenciaRepository.save(incidencia);
     }
+
 
 
     public Tecnico saveTecnico(EditTecnicoCmd editTecnicoCmd) {
